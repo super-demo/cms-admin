@@ -4,11 +4,8 @@ import { GalleryVerticalEnd } from "lucide-react"
 import Link from "next/link"
 import { ComponentProps } from "react"
 
-import { UserProfile } from "@/app/api/user/types"
-import { NavMain } from "@/components/layout/sidebar/nav-main"
-import { NavMockData } from "@/components/layout/sidebar/nav-mock"
-import { NavSecondary } from "@/components/layout/sidebar/nav-secondary"
-import { NavSupport } from "@/components/layout/sidebar/nav-support"
+import { Main } from "@/components/layout/sidebar/main"
+import { sidebarItems } from "@/components/layout/sidebar/items"
 import { NavUser } from "@/components/layout/sidebar/nav-user"
 import {
   Sidebar,
@@ -20,6 +17,7 @@ import {
 } from "@/components/ui/sidebar"
 
 import packageJson from "../../../../package.json"
+import { UserProfile } from "@/app/api/user/types"
 
 interface SidebarLayoutProps extends ComponentProps<typeof Sidebar> {
   userData: UserProfile
@@ -38,8 +36,8 @@ export default function SidebarLayout({
               <GalleryVerticalEnd className="size-4" />
             </div>
             <div className="flex flex-col gap-0.5 leading-none">
-              <span className="font-semibold">CMS (SuperApp)</span>
-              <span className="">v{packageJson.version}</span>
+              <span className="font-semibold">Kasetsart University</span>
+              <span className="text-xs">v{packageJson.version}</span>
             </div>
           </Link>
         </SidebarMenuButton>
@@ -47,9 +45,7 @@ export default function SidebarLayout({
       <SidebarContent>
         {/* FYI: This is mock components */}
         {/* TODO: Implement with navigation */}
-        <NavMain items={NavMockData.navMain} />
-        <NavSecondary items={NavMockData.navSecondary} />
-        <NavSupport items={NavMockData.navSupport} className="mt-auto" />
+        <Main items={sidebarItems.main} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser userData={userData} />

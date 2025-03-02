@@ -40,7 +40,7 @@ export default function Home() {
             <h1 className="uppercase">account</h1>
           </div>
           <Button variant="outline" className="gap-4 text-base" asChild>
-            <Link href="/site/1/home">
+            <Link href="/home">
               <FcGoogle size={20} /> Login with Google
             </Link>
           </Button>

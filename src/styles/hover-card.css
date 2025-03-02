@@ -1,0 +1,29 @@
+.hover-card {
+  @apply relative cursor-pointer rounded-2xl bg-white p-4 transition-all duration-300;
+}
+
+.hover-card:hover {
+  @apply border-transparent ring-1 ring-[#A0A0A0] ring-opacity-25;
+}
+
+.hover-card::before {
+  @apply absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300;
+  content: "";
+  background: linear-gradient(135deg, #ffffff 0%, #d3d3d3 100%);
+}
+
+.hover-card:hover::before {
+  @apply opacity-20;
+}
+
+.hover-card-content {
+  @apply relative z-10;
+}
+
+.hover-card-title {
+  @apply text-lg font-semibold text-gray-800;
+}
+
+.hover-card-text {
+  @apply mt-1 text-sm text-gray-600;
+}

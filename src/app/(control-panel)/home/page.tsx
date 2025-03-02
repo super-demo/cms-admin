@@ -1,5 +1,5 @@
-import MiniAppCard from "@/components/mini-app-card"
-import WorkspaceCard from "@/components/workspace-card"
+import MiniAppCard from "@/components/cards/mini-app-card"
+import WorkspaceCard from "@/components/cards/workspace-card"
 import { PeopleTable } from "./_components/people-table"
 
 // const metadata = [
@@ -21,15 +21,19 @@ export default function Home() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-lg font-semibold">Recently Visited Workspaces</h1>
+        <h1 className="mb-5 text-lg font-semibold">
+          Recently Visited Workspaces
+        </h1>
         <WorkspaceCard />
       </div>
       <div>
-        <h1 className="text-lg font-semibold">Recently Visited Services</h1>
+        <h1 className="mb-5 text-lg font-semibold">
+          Recently Visited Services
+        </h1>
         <MiniAppCard />
       </div>
       <div>
-        <h1 className="text-lg font-semibold">People in site</h1>
+        <h1 className="mb-5 text-lg font-semibold">People in site</h1>
         <PeopleTable />
       </div>
     </div>

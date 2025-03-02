@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronsUpDown, LogOut, User } from "lucide-react"
+import { ChevronsUpDown, LogOut } from "lucide-react"
 import { signOut } from "next-auth/react"
 
 import { UserProfile } from "@/app/api/user/types"
@@ -83,10 +83,6 @@ export function NavUser(props: NavUserProps) {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <User />
-              Profile
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/sign" })}>
               <LogOut />

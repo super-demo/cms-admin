@@ -19,7 +19,7 @@ import {
   SidebarMenuSubItem
 } from "@/components/ui/sidebar"
 
-export function NavMain({
+export function Main({
   items
 }: {
   items: {
@@ -35,7 +35,7 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Main</SidebarGroupLabel>
+      <SidebarGroupLabel>Manage</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
