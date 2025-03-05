@@ -16,7 +16,7 @@ export default function WorkspacesMiniApps() {
         <TabsContent value="mini-app">
           <MiniApps />
         </TabsContent>
-      </Tabs>
+      </Tabs> 
     </div>
   )
 }

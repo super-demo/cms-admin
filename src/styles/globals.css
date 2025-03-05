@@ -8,6 +8,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* h1 {
+  @apply text-xl font-bold;
+} */
+
 @layer base {
   :root {
     --background: 0 0% 100%;

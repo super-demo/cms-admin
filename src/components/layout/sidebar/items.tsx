@@ -12,7 +12,7 @@ export const sidebarItems = {
     },
     {
       title: "Workspaces & Mini Apps",
-      url: path.WORKSPACES,
+      url: path.WORKSPACES_MINI_APPS,
       icon: Building
     },
     {
