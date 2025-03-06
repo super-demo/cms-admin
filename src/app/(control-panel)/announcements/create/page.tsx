@@ -15,11 +15,13 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import IconUpload from "./_components/icon-upload"
+
 import { useRouter } from "next/navigation"
+import IconUpload from "../../workspaces-mini-apps/create-mini-app/_components/icon-upload"
+import BannerUpload from "../_components/banner-upload"
 
 const FormSchema = z.object({
-  miniAppName: z.string().min(2, {
+  workspaceName: z.string().min(2, {
     message: "Username must be at least 2 characters."
   }),
   description: z
@@ -29,7 +31,7 @@ const FormSchema = z.object({
     })
     .optional()
     .or(z.literal("")),
-  webhookUrl: z
+  shortDescription: z
     .string()
     .min(2, {
       message: "Username must be at least 2 characters."
@@ -70,22 +72,22 @@ export default function Page() {
   return (
     <>
       <div>
-        <h1 className="my-2 text-xl font-bold">Create a new mini app</h1>
+        <h1 className="my-2 text-xl font-bold">Add a new announcement</h1>
       </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-6"
         >
-          <IconUpload />
+          <BannerUpload />
 
           <FormField
             control={form.control}
-            name="miniAppName"
+            name="workspaceName"
             render={({ field }) => (
               <FormItem className="flex items-baseline space-x-10">
                 <FormLabel className="whitespace-nowrap">
-                  Mini app name
+                  Announcement title
                 </FormLabel>
 
                 <div className="w-full">
@@ -104,7 +106,7 @@ export default function Page() {
             render={({ field }) => (
               <FormItem className="flex items-baseline space-x-10">
                 <FormLabel className="whitespace-nowrap">
-                  Mini app description
+                  Announcement short description
                   <p className="mt-1">(optional)</p>
                 </FormLabel>
 
@@ -120,10 +122,13 @@ export default function Page() {
 
           <FormField
             control={form.control}
-            name="webhookUrl"
+            name="shortDescription"
             render={({ field }) => (
               <FormItem className="flex items-baseline space-x-10">
-                <FormLabel className="whitespace-nowrap">Webhook URL</FormLabel>
+                <FormLabel className="whitespace-nowrap">
+                  Announcement link URL
+                  <p className="mt-1">(optional)</p>
+                </FormLabel>
 
                 <div className="w-full">
                   <FormControl>

@@ -96,7 +96,11 @@ export default function IconUpload({
   return (
     <div className="flex w-full">
       <div className="max-w-64 space-y-1">
-        <FormLabel className="whitespace-nowrap">Workspace icon</FormLabel>
+        <FormLabel className="whitespace-nowrap">Mini app icon</FormLabel>
+        {/* <CardDescription className="text-xs">
+          Recommended size: 512x512 pixels (PNG, JPG, or SVG). and has a
+          transparent background.
+        </CardDescription> */}
       </div>
       <CardContent className="flex flex-col items-center space-y-4 pt-3">
         <div className="group relative">

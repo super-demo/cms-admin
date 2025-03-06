@@ -8,7 +8,7 @@ import { CardContent, CardDescription, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 // import { useToast } from "@/components/ui/use-toast"
-import { Camera, User } from "lucide-react"
+import { Camera, CirclePlus, ImagePlus, Plus, User } from "lucide-react"
 import { FormLabel } from "@/components/ui/form"
 import { toast } from "sonner"
 
@@ -17,7 +17,7 @@ interface ProfileUploadProps {
   onUploadComplete?: (url: string) => void
 }
 
-export default function IconUpload({
+export default function BannerUpload({
   initialImageUrl,
   onUploadComplete
 }: ProfileUploadProps) {
@@ -96,18 +96,18 @@ export default function IconUpload({
   return (
     <div className="flex w-full">
       <div className="max-w-64 space-y-1">
-        <FormLabel className="whitespace-nowrap">Workspace icon</FormLabel>
+        <FormLabel className="whitespace-nowrap">Announcement banner</FormLabel>
       </div>
       <CardContent className="flex flex-col items-center space-y-4 pt-3">
         <div className="group relative">
-          <Avatar className="h-32 w-32 border-4 border-muted">
+          <Avatar className="h-28 w-[424px] rounded-none border-4 border-muted bg-muted">
             <AvatarImage src={imageUrl || undefined} alt="Profile" />
             <AvatarFallback className="bg-muted">
-              <User className="h-12 w-12 text-muted-foreground" />
+              <ImagePlus className="h-6 w-6 text-muted-foreground" />
             </AvatarFallback>
           </Avatar>
           <div
-            className="absolute inset-0 flex cursor-pointer items-center justify-center rounded-full bg-black/60 opacity-0 transition-opacity group-hover:opacity-100"
+            className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/60 opacity-0 transition-opacity group-hover:opacity-100"
             onClick={triggerFileInput}
           >
             <Camera className="h-8 w-8 text-white" />
