@@ -28,10 +28,10 @@ export default function Settings() {
 
       <div className="space-x-4">
         <Button variant={"outline"}>
-          <BookText /> Documents
+          <BookText /> Document
         </Button>
         <Button variant={"outline"}>
-          <Bot /> Supports
+          <Bot /> Support
         </Button>
       </div>
     </div>

@@ -1,11 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
 import { Settings } from "lucide-react"
-import People from "../../../people/page"
-import MiniApps from "../../_components/mini-apps"
-import TempCard from "./_components/temp-wrksp"
+import MiniApps from "../../../_components/mini-apps"
+import { People } from "./people"
+import TempCard from "./temp-wrksp"
 
-export default async function Page({
+export default async function WorkspaceClient({
   params
 }: {
   params: Promise<{ workspace: string }>
@@ -46,7 +46,9 @@ export default async function Page({
             icon="https://github.com/thyc.png"
           />
         </TabsContent>
-        <TabsContent value="mini-app">{/* <MiniApps /> */}</TabsContent>
+        <TabsContent value="mini-app">
+          <MiniApps />
+        </TabsContent>
         <TabsContent value="people">
           <People />
         </TabsContent>

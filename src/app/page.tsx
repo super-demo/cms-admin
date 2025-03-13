@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import {
@@ -8,6 +10,7 @@ import {
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
 import { FcGoogle } from "react-icons/fc"
+import { signIn } from "next-auth/react"
 
 export default function Home() {
   return (
@@ -39,10 +42,14 @@ export default function Home() {
             <h1 className="font-bold uppercase">super space</h1>
             <h1 className="uppercase">account</h1>
           </div>
-          <Button variant="outline" className="gap-4 text-base" asChild>
-            <Link href="/home">
-              <FcGoogle size={20} /> Login with Google
-            </Link>
+          <Button
+            variant="outline"
+            className="gap-4 text-base"
+            onClick={async () =>
+              await signIn("google", { callbackUrl: "/home" })
+            }
+          >
+            <FcGoogle size={20} /> Login with Google
           </Button>
         </div>
       </div>

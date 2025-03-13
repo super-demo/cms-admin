@@ -5,7 +5,19 @@ import { Badge } from "../ui/badge"
 import { useRouter } from "next/navigation"
 import { pathWithSlug } from "@/constants/path"
 
-export default function WorkspaceCard() {
+interface WorkspaceCardProps {
+  name: string
+  short_description?: string
+  parent_name: string
+  image_url?: string
+}
+
+export default function WorkspaceCard({
+  name,
+  short_description,
+  parent_name,
+  image_url
+}: WorkspaceCardProps) {
   const router = useRouter()
 
   const handleClick = (url: string) => {
@@ -14,7 +26,7 @@ export default function WorkspaceCard() {
   }
 
   return (
-    <div className="flex space-x-5">
+    <div>
       <div className="hover-card h-[268px] w-[236px] rounded-2xl border border-gray-200 p-6">
         <div
           className="hover-card-content flex h-full w-full flex-col items-center justify-center space-y-5"
@@ -24,7 +36,7 @@ export default function WorkspaceCard() {
           <div className="flex items-center justify-center">
             <Avatar>
               <AvatarImage
-                src="https://github.com/thyms-c.png"
+                src={image_url}
                 alt="workspace_icon"
                 className="size-16 rounded-full"
               />
@@ -32,10 +44,10 @@ export default function WorkspaceCard() {
             </Avatar>
           </div>
           <div className="flex flex-col items-center space-y-1 text-sm">
-            <h1 className="text-base font-bold">Kaset Sriracha</h1>
-            <h1>เกษตรศาสตร์ วิทยาเขต ศรีราชา</h1>
+            <h1 className="text-base font-bold">{name}</h1>
+            <h1>{short_description}</h1>
           </div>
-          <Badge>Kasetsart University</Badge>
+          <Badge>{parent_name}</Badge>
         </div>
       </div>
 

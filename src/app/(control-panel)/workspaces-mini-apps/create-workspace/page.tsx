@@ -17,25 +17,14 @@ import {
 import { Input } from "@/components/ui/input"
 import IconUpload from "./_components/icon-upload"
 import { useRouter } from "next/navigation"
+import { toast } from "@/hooks/use-toast"
+import { CreateWorkspace } from "@/app/api/site/action"
+import { path } from "@/constants/path"
 
 const FormSchema = z.object({
-  workspaceName: z.string().min(2, {
-    message: "Username must be at least 2 characters."
-  }),
-  description: z
-    .string()
-    .min(2, {
-      message: "Username must be at least 2 characters."
-    })
-    .optional()
-    .or(z.literal("")),
-  shortDescription: z
-    .string()
-    .min(2, {
-      message: "Username must be at least 2 characters."
-    })
-    .optional()
-    .or(z.literal(""))
+  name: z.string().nonempty("Workspace name is required"),
+  description: z.string().optional(),
+  shortDescription: z.string().optional()
 })
 
 export default function Page() {
@@ -44,28 +33,40 @@ export default function Page() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      description: ""
+      name: ""
     }
   })
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   )
-    // })
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    toast({
+      title: "You submitted the following values:",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      )
+    })
 
-    console.log(data)
+    const payload = {
+      name: data.name,
+      description: data.description,
+      short_description: data.shortDescription,
+      image_url: "https://github.com/thyc.png"
+    }
+    console.log(payload)
+
+    await CreateWorkspace(payload, 1)
+
+    form.reset()
+    router.push(path.WORKSPACES_MINI_APPS)
   }
 
   function handleCancel() {
     form.reset()
-
     router.back()
   }
+
+  // const { imageUrl, setImageUrl } = useState<string | null>(null)
 
   return (
     <>
@@ -81,7 +82,7 @@ export default function Page() {
 
           <FormField
             control={form.control}
-            name="workspaceName"
+            name="name"
             render={({ field }) => (
               <FormItem className="flex items-baseline space-x-10">
                 <FormLabel className="whitespace-nowrap">

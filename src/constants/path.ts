@@ -8,8 +8,9 @@ export const path = {
   WORKSPACES: "/workspaces-mini-apps/workspaces",
   MINI_APPS: "/workspaces-mini-apps/mini-apps",
   PEOPLE: "/people",
-  CREATE_ANNOUNCEMENT: "/announcements/create",
+  PEOPLE_ADD: "/people/add",
   ANNOUNCEMENTS: "/announcements",
+  CREATE_ANNOUNCEMENT: "/announcements/create",
   SETTINGS: "/settings",
 }
 

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import { pathWithSlug } from "@/constants/path"
 import { Badge } from "@/components/ui/badge"
 import { CreateWorkspaceCard } from "@/components/cards/create-workspace-card"
-import { WorkspaceCardProps } from "@/app/api/workspace/types"
+import { WorkspaceCardProps } from "@/app/api/site/types"
 
 export default function TempCard({
   name,

@@ -1,15 +1,19 @@
 "use client"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
-import { Badge } from "../ui/badge"
 import { useRouter } from "next/navigation"
 import { pathWithSlug } from "@/constants/path"
 
-export default function MiniAppCard() {
+interface MiniAppCardProps {
+  slug: string
+  image_url: string
+}
+
+export default function MiniAppCard({ slug, image_url }: MiniAppCardProps) {
   const router = useRouter()
 
   const handleClick = () => {
-    router.push(pathWithSlug.MINI_APP_SLUG("library"))
+    router.push(pathWithSlug.MINI_APP_SLUG(slug))
   }
 
   return (
@@ -19,20 +23,20 @@ export default function MiniAppCard() {
         onClick={handleClick}
       >
         <div className="hover-card-content flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-4">
             <Avatar>
               <AvatarImage
-                src="https://github.com/ms.png"
+                src={image_url}
                 alt="workspace_icon"
                 className="size-12 rounded-full"
               />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            <h1 className="text-sm font-bold">Library</h1>
+            <h1 className="text-sm font-bold">{slug}</h1>
           </div>
-          <Badge className="max-w-20 truncate text-left">
+          {/* <Badge className="max-w-20 truncate text-left">
             Kasetsart Bangkhen
-          </Badge>
+          </Badge> */}
         </div>
       </div>
     </div>

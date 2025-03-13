@@ -17,25 +17,17 @@ import {
 import { Input } from "@/components/ui/input"
 import IconUpload from "./_components/icon-upload"
 import { useRouter } from "next/navigation"
+import { CreateMiniApp } from "@/app/api/site-mini-apps/action"
+import { path } from "@/constants/path"
 
 const FormSchema = z.object({
   miniAppName: z.string().min(2, {
     message: "Username must be at least 2 characters."
   }),
-  description: z
-    .string()
-    .min(2, {
-      message: "Username must be at least 2 characters."
-    })
-    .optional()
-    .or(z.literal("")),
-  webhookUrl: z
-    .string()
-    .min(2, {
-      message: "Username must be at least 2 characters."
-    })
-    .optional()
-    .or(z.literal(""))
+  description: z.string().optional(),
+  webhookUrl: z.string().min(2, {
+    message: "Username must be at least 2 characters."
+  })
 })
 
 export default function Page() {
@@ -44,11 +36,12 @@ export default function Page() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      description: ""
+      miniAppName: "",
+      webhookUrl: ""
     }
   })
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     // toast({
     //   title: "You submitted the following values:",
     //   description: (
@@ -59,6 +52,19 @@ export default function Page() {
     // })
 
     console.log(data)
+
+    const payload = {
+      site_id: 1,
+      slug: data.miniAppName,
+      description: data.description,
+      link_url: data.webhookUrl,
+      image_url: "https:github.com/thyc.png"
+    }
+
+    await CreateMiniApp(payload)
+
+    form.reset()
+    router.push(path.WORKSPACES_MINI_APPS)
   }
 
   function handleCancel() {
