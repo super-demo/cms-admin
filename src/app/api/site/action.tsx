@@ -2,7 +2,27 @@
 
 import FetchInstance from "@/lib/fetch-instance"
 import { HttpError } from "@/lib/http-error"
-import { CreateWorkspaceForm, Workspace } from "./types"
+import { CreateWorkspaceForm, Site, Workspace } from "./types"
+
+export async function GetSite(id: number): Promise<Site> {
+  try {
+    const response = await FetchInstance(`/sites/${id}`, {
+      method: "GET"
+    })
+
+    const result = await response.json()
+
+    console.log("Site:", result.data)
+
+    if (!response.ok)
+      throw new HttpError(result.status.message, result.status.code)
+
+    return result.data
+  } catch (error) {
+    console.error("Error fetching site:", error)
+    throw error
+  }
+}
 
 export async function GetListWorkspace(id: number): Promise<Workspace[]> {
   try {

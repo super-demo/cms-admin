@@ -70,6 +70,8 @@ const authOption: NextAuthOptions = {
     session: async ({ session, token }) => {
       const { userId, accessToken } = token
       const { data: userData } = await GetUserProfile(userId, accessToken)
+
+      console.log("TOKEN", token.accessToken)
       session.user = {
         image: userData.avatar_url,
         email: userData.email,

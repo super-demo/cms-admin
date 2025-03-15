@@ -5,11 +5,20 @@ import { Button } from "@/components/ui/button"
 import { FolderDown, Plus, QrCode } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { path } from "@/constants/path"
-import UserTableExample, { data } from "./user-table-example"
 import { PeopleTable } from "./people-table"
 import { columns } from "./columns"
+import { UserTable } from "./team-table"
+import { UserProfile } from "@/app/api/user/types"
 
-export default function PeopleClient() {
+interface PeopleClientProps {
+  teamList: UserProfile[]
+  peopleList: UserProfile[]
+}
+
+export default function PeopleClient({
+  teamList,
+  peopleList
+}: PeopleClientProps) {
   const router = useRouter()
 
   function handleAddPeople() {
@@ -54,10 +63,11 @@ export default function PeopleClient() {
             <TabsTrigger value="people">People</TabsTrigger>
           </TabsList>
           <TabsContent value="teams">
-            <UserTableExample />
+            {/* <UserTableExample /> */}
+            <UserTable columns={columns} data={teamList} />
           </TabsContent>
           <TabsContent value="people">
-            <PeopleTable columns={columns} data={data} />
+            <PeopleTable columns={columns} data={peopleList} />
           </TabsContent>
         </Tabs>
       </div>

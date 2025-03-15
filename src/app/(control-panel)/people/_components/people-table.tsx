@@ -23,25 +23,9 @@ import {
   TableRow
 } from "@/components/ui/table"
 
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
-
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
@@ -82,8 +66,8 @@ export function PeopleTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between py-4">
-        <DropdownMenu>
+      <div className="flex items-center justify-end py-4">
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">Filter Role</Button>
           </DropdownMenuTrigger>
@@ -122,7 +106,7 @@ export function PeopleTable<TData, TValue>({
                 </DropdownMenuCheckboxItem>
               ))}
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
         {/* <Select>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select a workspace" />

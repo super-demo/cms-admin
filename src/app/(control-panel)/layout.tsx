@@ -4,6 +4,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { getServerSession } from "next-auth"
 import { GetUserProfile } from "../api/user/actions"
 import authOption from "../api/auth/[...nextauth]/auth-option"
+import { GetSite } from "../api/site/action"
 
 export default async function Layout({
   children
@@ -15,25 +16,11 @@ export default async function Layout({
     session?.user.jwt.userId as number,
     session?.user.jwt.accessToken as string
   )
-
-  // const userData = {
-  //   user_id: 1,
-  //   user_level_id: 1,
-  //   google_token: "google_token",
-  //   avatar_url: "avatar_url",
-  //   name: "name",
-  //   nickname: "nickname",
-  //   role: "role",
-  //   email: "email",
-  //   phone_number: "phone_number",
-  //   birthday: "birthday",
-  //   created_at: "created_at",
-  //   updated_at: "updated_at"
-  // }
+  const site = await GetSite(1)
 
   return (
     <SidebarProvider>
-      <SidebarLayout userData={userData} />
+      <SidebarLayout userData={userData} site={site} />
       <SidebarInset>
         <ContainerSidebarLayout>{children}</ContainerSidebarLayout>
       </SidebarInset>

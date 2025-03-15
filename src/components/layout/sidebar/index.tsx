@@ -18,13 +18,16 @@ import {
 
 import packageJson from "../../../../package.json"
 import { UserProfile } from "@/app/api/user/types"
+import { Site } from "@/app/api/site/types"
 
 interface SidebarLayoutProps extends ComponentProps<typeof Sidebar> {
   userData: UserProfile
+  site: Site
 }
 
 export default function SidebarLayout({
   userData,
+  site,
   ...props
 }: SidebarLayoutProps) {
   return (
@@ -36,7 +39,7 @@ export default function SidebarLayout({
               <GalleryVerticalEnd className="size-4" />
             </div>
             <div className="flex flex-col gap-0.5 leading-none">
-              <span className="font-semibold">Kasetsart University</span>
+              <span className="font-semibold">{site.name}</span>
               <span className="text-xs">v{packageJson.version}</span>
             </div>
           </Link>

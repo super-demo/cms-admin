@@ -14,15 +14,17 @@ export default function Workspaces({
       <div className="grid grid-cols-4 gap-5">
         <CreateWorkspaceCard />
 
-        {workspaces.map((workspace) => (
-          <WorkspaceCard
-            key={workspace.site_id}
-            name={workspace.name}
-            short_description={workspace.short_description}
-            image_url={workspace.image_url}
-            parent_name={workspace.site_parent_name}
-          />
-        ))}
+        {workspaces
+          ? workspaces.map((workspace) => (
+              <WorkspaceCard
+                key={workspace.site_id}
+                name={workspace.name}
+                short_description={workspace.short_description}
+                image_url={workspace.image_url}
+                parent_name={workspace.site_parent_name}
+              />
+            ))
+          : ""}
       </div>
     </div>
   )

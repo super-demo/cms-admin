@@ -12,6 +12,10 @@ export interface UserProfile {
     created_at: string
     updated_at: string
   }
+
+export interface UserProfileWithRole extends UserProfile {
+    role: "Root" | "Developer" | "Super Admin" | "Admin" | "Viewer" | "People"
+  }
   
   export interface GoogleSignInToken {
     access_token: string

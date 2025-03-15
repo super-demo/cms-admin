@@ -2,7 +2,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
 import { Settings } from "lucide-react"
 import People from "../../../people/page"
-import MiniApps from "../../_components/mini-apps"
 import TempCard from "./_components/temp-wrksp"
 
 export default async function Page({

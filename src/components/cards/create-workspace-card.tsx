@@ -14,7 +14,7 @@ export function CreateWorkspaceCard() {
 
   return (
     <div
-      className="hover-card flex w-[236px] flex-col items-center justify-center space-y-4 rounded-2xl border border-gray-200 p-6"
+      className="hover-card flex h-[268px] w-[236px] flex-col items-center justify-center space-y-4 rounded-2xl border border-gray-200 p-6"
       onClick={handleClick}
     >
       <div className="hover-card-content flex flex-col items-center justify-center space-y-2 stroke-neutral-500 text-sm text-neutral-500">

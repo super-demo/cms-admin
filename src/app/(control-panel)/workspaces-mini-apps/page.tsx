@@ -5,12 +5,11 @@ import Workspaces from "./_components/workspaces"
 import MiniApps from "./_components/mini-apps"
 import { GetListWorkspace } from "@/app/api/site/action"
 import { GetListMiniApp } from "@/app/api/site-mini-apps/action"
+import { MAIN_SITE_ID } from "@/constants"
 
 export default async function WorkspacesMiniApps() {
-  const main_site_id = 1
-
-  const workspaces = await GetListWorkspace(main_site_id)
-  const mini_apps = await GetListMiniApp(main_site_id)
+  const workspaces = await GetListWorkspace(MAIN_SITE_ID)
+  const mini_apps = await GetListMiniApp(MAIN_SITE_ID)
 
   return (
     <div className="">
