@@ -5,15 +5,23 @@ import { useRouter } from "next/navigation"
 import { pathWithSlug } from "@/constants/path"
 
 interface MiniAppCardProps {
+  mini_app_id: number
   slug: string
   image_url: string
 }
 
-export default function MiniAppCard({ slug, image_url }: MiniAppCardProps) {
+export default function MiniAppCard({
+  mini_app_id,
+  slug,
+  image_url
+}: MiniAppCardProps) {
   const router = useRouter()
 
   const handleClick = () => {
-    router.push(pathWithSlug.MINI_APP_SLUG(slug))
+    console.log("mini_app_id", mini_app_id)
+    const id = mini_app_id.toLocaleString()
+
+    router.push(pathWithSlug.MINI_APP_SLUG(id))
   }
 
   return (

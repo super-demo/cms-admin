@@ -42,6 +42,7 @@ export default function PeopleClient({
             variant={"secondary"}
             className="pt-2.5"
             onClick={handleAddPeople}
+            disabled
           >
             <FolderDown />
             Bulk Import
@@ -50,6 +51,7 @@ export default function PeopleClient({
             variant={"secondary"}
             className="pt-2.5"
             onClick={handleAddPeople}
+            disabled
           >
             <QrCode />
             QR Code

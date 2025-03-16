@@ -16,6 +16,7 @@ export const path = {
 
 export const pathWithSlug = {
   MINI_APP_SLUG: (miniApp: string) => `${path.MINI_APPS}/${miniApp}`,
+  MINI_APP_ADD_PEOPLE: (miniApp: string) => `${path.MINI_APPS}/${miniApp}/add-people`,
   WORKSPACE_SLUG: (workspace: string) => `${path.WORKSPACES}/${workspace}`,
   SECOND_LEVEL: (workspace: string, second: string) => `${path.WORKSPACES}/${workspace}/${second}`,
   THIRD_LEVEL: (workspace: string, second: string, third: string) => `${path.WORKSPACES}/${workspace}/${second}/${third}`,

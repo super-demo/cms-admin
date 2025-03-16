@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { FcGoogle } from "react-icons/fc"
 import { signIn } from "next-auth/react"
+import { path } from "@/constants/path"
 
 export default function Home() {
   return (
@@ -46,7 +47,7 @@ export default function Home() {
             variant="outline"
             className="gap-4 text-base"
             onClick={async () =>
-              await signIn("google", { callbackUrl: "/home" })
+              await signIn("google", { callbackUrl: path.WORKSPACES_MINI_APPS })
             }
           >
             <FcGoogle size={20} /> Login with Google

@@ -21,4 +21,3 @@ export interface UserProfileWithRole extends UserProfile {
     access_token: string
     expires_at: number
   }
-  

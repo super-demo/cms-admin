@@ -31,7 +31,7 @@ export async function AddUserToSite(
 
 export async function GetListSiteUser(
   id: number,
-  roleFilter: number[]
+  roleFilter?: number[]
 ): Promise<UserProfileWithRole[]> {
   try {
     const response = await FetchInstance(`/site-users/list/${id}`, {
@@ -45,9 +45,11 @@ export async function GetListSiteUser(
 
     const site_user_list: SiteUser[] = result.data
 
-    const userProfileList = site_user_list
-      .map((userEntry) => userEntry.user)
-      .filter((user) => !roleFilter.includes(user.user_level_id))
+    const userProfileList = roleFilter
+      ? site_user_list
+          .map((userEntry) => userEntry.user)
+          .filter((user) => !roleFilter.includes(user.user_level_id))
+      : site_user_list.map((userEntry) => userEntry.user)
 
     const userProfileWithRoleList = userProfileList.map((userProfile) =>
       transformUserProfile(userProfile)

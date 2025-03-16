@@ -37,6 +37,7 @@ export default function Page() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       miniAppName: "",
+      description: undefined,
       webhookUrl: ""
     }
   })

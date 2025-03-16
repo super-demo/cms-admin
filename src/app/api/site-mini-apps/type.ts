@@ -1,7 +1,8 @@
 import { UserProfile } from "../user/types"
 
 export interface  MiniApp {
-    mini_app_id: number
+    site_mini_app_id: number
+    site_id: number
     slug: string
     description?: string
     short_description?: string

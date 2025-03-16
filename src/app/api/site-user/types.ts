@@ -1,4 +1,5 @@
 import { UserProfile } from "../user/types"
+import { Role, roleConst } from "./constants"
 
 export interface SiteUser {
     site_user_id: number
@@ -16,4 +17,10 @@ export interface AddUserForm {
     site_id: number
     email: string
     user_level_id: number
+}
+
+export interface AddUserTableForm {
+    id: string
+    email: string
+    role: Role
 }

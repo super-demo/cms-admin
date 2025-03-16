@@ -1,15 +1,15 @@
-import { House, Building, UsersRound, Megaphone, Settings2 } from "lucide-react"
+import { Building, UsersRound, Megaphone, Settings2 } from "lucide-react"
 
 import { path } from "@/constants/path"
 
 export const sidebarItems = {
   main: [
-    {
-      title: "Home",
-      url: path.HOME,
-      icon: House,
-      isActive: true
-    },
+    // {
+    //   title: "Home",
+    //   url: path.HOME,
+    //   icon: House,
+    //   isActive: true
+    // },
     {
       title: "Workspaces & Mini Apps",
       url: path.WORKSPACES_MINI_APPS,
