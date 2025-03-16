@@ -24,6 +24,26 @@ export async function GetSite(id: number): Promise<Site> {
   }
 }
 
+export async function GetWorkspace(id: number): Promise<Workspace> {
+  try {
+    const response = await FetchInstance(`/sites/workspace/${id}`, {
+      method: "GET"
+    })
+
+    const result = await response.json()
+
+    console.log("Workspace:", result.data)
+
+    if (!response.ok)
+      throw new HttpError(result.status.message, result.status.code)
+
+    return result.data
+  } catch (error) {
+    console.error("Error fetching workspace:", error)
+    throw error
+  }
+}
+
 export async function GetListWorkspace(id: number): Promise<Workspace[]> {
   try {
     const response = await FetchInstance(`/site-trees/list/${id}`, {

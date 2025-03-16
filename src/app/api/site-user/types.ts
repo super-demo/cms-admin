@@ -1,5 +1,5 @@
 import { UserProfile } from "../user/types"
-import { Role, roleConst } from "./constants"
+import { Role } from "./constants"
 
 export interface SiteUser {
     site_user_id: number

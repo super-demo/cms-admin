@@ -5,7 +5,6 @@ export const path = {
   CREATE_WORKSPACE: "/workspaces-mini-apps/create-workspace",
   CREATE_MINI_APP: "/workspaces-mini-apps/create-mini-app",
   WORKSPACES_MINI_APPS: "/workspaces-mini-apps",
-  WORKSPACES: "/workspaces-mini-apps/workspaces",
   MINI_APPS: "/workspaces-mini-apps/mini-apps",
   PEOPLE: "/people",
   PEOPLE_ADD: "/people/add",
@@ -17,7 +16,14 @@ export const path = {
 export const pathWithSlug = {
   MINI_APP_SLUG: (miniApp: string) => `${path.MINI_APPS}/${miniApp}`,
   MINI_APP_ADD_PEOPLE: (miniApp: string) => `${path.MINI_APPS}/${miniApp}/add-people`,
-  WORKSPACE_SLUG: (workspace: string) => `${path.WORKSPACES}/${workspace}`,
-  SECOND_LEVEL: (workspace: string, second: string) => `${path.WORKSPACES}/${workspace}/${second}`,
-  THIRD_LEVEL: (workspace: string, second: string, third: string) => `${path.WORKSPACES}/${workspace}/${second}/${third}`,
+
+  // workspace
+  WORKSPACE_SLUG: (workspace: string) => `${path.WORKSPACES_MINI_APPS}/${workspace}`,
+  WORKSPACE_SECOND_LEVEL: (parentId: string, childId: string) => `${path.WORKSPACES_MINI_APPS}/${parentId}/${childId}`,
+  WORKSPACE_THIRD_LEVEL: (parentId: string, childId: string, grandChildId: string) => `${path.WORKSPACES_MINI_APPS}/${parentId}/${childId}/${grandChildId}`,
+
+  CREATE_WORKSPACE_LV_1: (childId: string) => `${path.WORKSPACES_MINI_APPS}/${childId}/create-workspace`,
+  CREATE_WORKSPACE_LV_2: (parentId: string, childId: string) => `${path.WORKSPACES_MINI_APPS}/${parentId}/${childId}/create-workspace`,
+  CREATE_WORKSPACE_LV_3: (parentId: string, childId: string, grandChildId: string) =>
+    `${path.WORKSPACES_MINI_APPS}/${parentId}/${childId}/${grandChildId}/create-workspace`,
 }

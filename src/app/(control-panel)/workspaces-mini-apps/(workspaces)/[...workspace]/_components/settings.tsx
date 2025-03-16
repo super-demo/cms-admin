@@ -1,21 +1,28 @@
+import { Workspace } from "@/app/api/site/types"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
 
-export function Settings() {
+interface SettingsWorkspaceProps {
+  workspace: Workspace
+}
+
+export default function SettingsWorkspace({
+  workspace
+}: SettingsWorkspaceProps) {
   return (
-    <div>
+    <div className="p-4">
       <h1 className="text-lg font-bold">Information</h1>
 
       <div className="mt-6 flex space-x-10">
         <h2 className="font-bold">Workspace ID</h2>
-        <p className="text-neutral-700">323534524</p>
+        <p className="text-neutral-700">{workspace.site_id}</p>
       </div>
       <div className="mt-6 flex space-x-10">
         <h2 className="font-bold">Workspace Icon</h2>
         <Avatar>
           <AvatarImage
-            src="https://github.com/thyms-c.png"
+            src={workspace.image_url}
             alt="workspace_icon"
             className="size-32 rounded-full"
           />
@@ -24,17 +31,15 @@ export function Settings() {
       </div>
       <div className="mt-6 flex space-x-10">
         <h2 className="font-bold">Workspace Name</h2>
-        <p className="text-neutral-700">Kasetsart Sriracha</p>
+        <p className="text-neutral-700">{workspace.name}</p>
       </div>
       <div className="mt-6 flex space-x-10">
         <h2 className="font-bold">Workspace Short Description</h2>
-        <p className="text-neutral-700">เกษตรศาสตร์ ศรีราชา</p>
+        <p className="text-neutral-700">{workspace.short_description ?? "-"}</p>
       </div>
       <div className="mt-6 flex space-x-10">
         <h2 className="font-bold">Workspace Description</h2>
-        <p className="text-neutral-700">
-          มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตศรีราชา
-        </p>
+        <p className="text-neutral-700">{workspace.description ?? "-"}</p>
       </div>
 
       <Separator className="my-10" />

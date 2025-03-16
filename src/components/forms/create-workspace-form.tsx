@@ -15,11 +15,10 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import IconUpload from "./_components/icon-upload"
 import { useRouter } from "next/navigation"
 import { toast } from "@/hooks/use-toast"
 import { CreateWorkspace } from "@/app/api/site/action"
-import { path } from "@/constants/path"
+import IconUpload from "@/app/(control-panel)/workspaces-mini-apps/create-mini-app/_components/icon-upload"
 
 const FormSchema = z.object({
   name: z.string().nonempty("Workspace name is required"),
@@ -27,13 +26,23 @@ const FormSchema = z.object({
   shortDescription: z.string().optional()
 })
 
-export default function Page() {
+interface CreateWorkspaceFormProps {
+  parentId: string
+  handlePush: () => void
+}
+
+export default function CreateWorkspaceForm({
+  parentId,
+  handlePush
+}: CreateWorkspaceFormProps) {
   const router = useRouter()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: ""
+      name: "",
+      description: undefined,
+      shortDescription: undefined
     }
   })
 
@@ -55,10 +64,11 @@ export default function Page() {
     }
     console.log(payload)
 
-    await CreateWorkspace(payload, 1)
+    await CreateWorkspace(payload, Number(parentId))
 
     form.reset()
-    router.push(path.WORKSPACES_MINI_APPS)
+    // router.push(path.WORKSPACES_MINI_APPS)
+    handlePush()
   }
 
   function handleCancel() {

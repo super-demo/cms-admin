@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(control-panel)/workspace-mini-app", "src/app/(control-panel)/workspace", "src/app/(control-panel)/workspaces-mini-apps/_components", "src/app/(control-panel)/workspaces-mini-apps/workspaces/[...workspace]/_components"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(control-panel)/workspace-mini-app", "src/app/(control-panel)/workspace", "src/app/(control-panel)/workspaces-mini-apps/_components", "src/app/(control-panel)/workspaces-mini-apps/(workspaces)/[...workspace]/_components"],
   "exclude": ["node_modules"]
 }
