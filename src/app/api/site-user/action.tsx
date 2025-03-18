@@ -9,9 +9,6 @@ export async function AddUserToSite(
   payload: AddUserForm[]
 ): Promise<SiteUser[]> {
   try {
-    console.log("payload", payload)
-    console.log("payload json", JSON.stringify(payload))
-
     const response = await FetchInstance(`/site-users/create/without/sign`, {
       method: "POST",
       body: JSON.stringify(payload)

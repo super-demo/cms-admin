@@ -110,9 +110,6 @@ export function PeopleTable<TData, TValue>({
   })
 
   function handleAddPeople() {
-    console.log(workspaceIds)
-    console.log(miniAppSlug)
-
     if (workspaceIds.length === 1) {
       router.push(
         pathWithSlug.MINI_APP_ADD_PEOPLE_LV_1(workspaceIds[0], miniAppSlug)

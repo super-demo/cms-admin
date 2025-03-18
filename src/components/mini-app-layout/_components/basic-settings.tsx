@@ -20,8 +20,6 @@ export default function BasicSettings({
   miniAppData,
   onUploadComplete
 }: BasicSettingsProps) {
-  console.log("miniAppData", miniAppData)
-
   const [imageUrl, setImageUrl] = useState<string | null>(
     miniAppData.image_url || null
   )

@@ -14,15 +14,6 @@ export default function MiniAppCard({
   image_url,
   handleClick
 }: MiniAppCardProps) {
-  // const router = useRouter()
-
-  // const handleClick = () => {
-  //   console.log("mini_app_id", mini_app_id)
-  //   const id = mini_app_id.toLocaleString()
-
-  //   router.push(pathWithSlug.MINI_APP_SLUG(id))
-  // }
-
   return (
     <div className="flex space-x-5">
       <div
