@@ -35,20 +35,23 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react"
-import { useRouter } from "next/navigation"
 import { pathWithSlug } from "@/constants/path"
+import { useRouter } from "next/navigation"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   miniAppSlug: string
+  workspaceIds: string[]
 }
 
 export function PeopleTable<TData, TValue>({
+  miniAppSlug,
   columns,
   data,
-  miniAppSlug
+  workspaceIds
 }: DataTableProps<TData, TValue>) {
+  const router = useRouter()
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -106,10 +109,34 @@ export function PeopleTable<TData, TValue>({
     }
   })
 
-  const router = useRouter()
-
   function handleAddPeople() {
-    router.push(pathWithSlug.MINI_APP_ADD_PEOPLE(miniAppSlug))
+    console.log(workspaceIds)
+    console.log(miniAppSlug)
+
+    if (workspaceIds.length === 1) {
+      router.push(
+        pathWithSlug.MINI_APP_ADD_PEOPLE_LV_1(workspaceIds[0], miniAppSlug)
+      )
+    } else if (workspaceIds.length === 2) {
+      router.push(
+        pathWithSlug.MINI_APP_ADD_PEOPLE_LV_2(
+          workspaceIds[0],
+          workspaceIds[1],
+          miniAppSlug
+        )
+      )
+    } else if (workspaceIds.length === 3) {
+      router.push(
+        pathWithSlug.MINI_APP_ADD_PEOPLE_LV_3(
+          workspaceIds[0],
+          workspaceIds[1],
+          workspaceIds[2],
+          miniAppSlug
+        )
+      )
+    } else {
+      router.push(pathWithSlug.MINI_APP_ADD_PEOPLE(miniAppSlug))
+    }
   }
 
   // Safely get column

@@ -6,9 +6,15 @@ export default async function Page({
 }: {
   params: Promise<{ level1: string; mini: string }>
 }) {
-  const miniAppId = (await params).mini
+  const param = await params
+
+  const miniAppId = param.mini
+
+  const workspaceIdList = [param.level1]
 
   const miniApp = await GetMiniApp(Number(miniAppId))
 
-  return <HomeMiniAppLayout miniApp={miniApp} />
+  return (
+    <HomeMiniAppLayout miniApp={miniApp} workspaceIdList={workspaceIdList} />
+  )
 }

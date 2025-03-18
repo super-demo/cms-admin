@@ -4,11 +4,22 @@ import HomeMiniAppLayout from "@/components/mini-app-layout/home"
 export default async function Page({
   params
 }: {
-  params: Promise<{ mini: string }>
+  params: Promise<{
+    level1: string
+    level2: string
+    level3: string
+    mini: string
+  }>
 }) {
+  const param = await params
+
+  const workspaceIdList = [param.level1, param.level2, param.level3]
+
   const miniAppId = (await params).mini
 
   const miniApp = await GetMiniApp(Number(miniAppId))
 
-  return <HomeMiniAppLayout miniApp={miniApp} />
+  return (
+    <HomeMiniAppLayout miniApp= {miniApp} workspaceIdList={workspaceIdList} />
+  )
 }

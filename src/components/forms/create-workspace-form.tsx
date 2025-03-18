@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input"
 import { useRouter } from "next/navigation"
 import { toast } from "@/hooks/use-toast"
 import { CreateWorkspace } from "@/app/api/site/action"
-import IconUpload from "@/app/(control-panel)/workspaces-mini-apps/create-mini-app/_components/icon-upload"
+import IconUpload from "@/app/(control-panel)/workspaces-mini-apps/(workspace)/create-workspace/_components/icon-upload"
 
 const FormSchema = z.object({
   name: z.string().nonempty("Workspace name is required"),

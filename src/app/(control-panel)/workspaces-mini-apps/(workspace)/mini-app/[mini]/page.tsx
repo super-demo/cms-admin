@@ -16,5 +16,5 @@ export default async function Page({
 
   const miniApp = await GetMiniApp(Number(miniAppId))
 
-  return <HomeMiniAppLayout miniApp={miniApp} />
+  return <HomeMiniAppLayout miniApp={miniApp} workspaceIdList={[]} />
 }

@@ -1,7 +1,7 @@
 import { GetListSiteUser } from "@/app/api/site-user/action"
-import AddPeopleClient from "./_components/add-people-client"
 import { MAIN_SITE_ID } from "@/constants"
 import { Role } from "@/app/api/site-user/constants"
+import AddPeopleTable from "@/components/add-people-table"
 
 export default async function AddPeople() {
   const siteUserList = await GetListSiteUser(MAIN_SITE_ID)
@@ -14,5 +14,5 @@ export default async function AddPeople() {
     }
   })
 
-  return <AddPeopleClient siteUserList={userEmailsWithRole} />
+  return <AddPeopleTable siteUserList={userEmailsWithRole} />
 }

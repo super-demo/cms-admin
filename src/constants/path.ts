@@ -17,7 +17,15 @@ export const path = {
 
 export const pathWithSlug = {
   MINI_APP_SLUG: (miniApp: string) => `${path.MINI_APPS}/${miniApp}`,
-  MINI_APP_ADD_PEOPLE: (miniApp: string) => `${path.MINI_APPS}/${miniApp}/add-people`,
+  
+  MINI_APP_ADD_PEOPLE: (miniApp: string) => `${path.WORKSPACES_MINI_APPS}/mini-app/${miniApp}/add-people`,
+  MINI_APP_ADD_PEOPLE_LV_1: (workspaceId: string, miniAppId: string) => `${path.WORKSPACES_MINI_APPS}/${workspaceId}/mini-app/${miniAppId}/add-people`,
+  MINI_APP_ADD_PEOPLE_LV_2: (workspaceId: string, childId: string, miniAppId: string) => `${path.WORKSPACES_MINI_APPS}/${workspaceId}/${childId}/mini-app/${miniAppId}/add-people`,
+  MINI_APP_ADD_PEOPLE_LV_3: (workspaceId: string, childId: string, grandChildId: string, miniAppId: string) => `${path.WORKSPACES_MINI_APPS}/${workspaceId}/${childId}/${grandChildId}/mini-app/${miniAppId}/add-people`,
+
+  WORKSPACE_ADD_PEOPLE_LV_1: (childId: string) => `${path.WORKSPACES_MINI_APPS}/${childId}/add-people`,
+  WORKSPACE_ADD_PEOPLE_LV_2: (parentId: string, childId: string) => `${path.WORKSPACES_MINI_APPS}/${parentId}/${childId}/add-people`,
+  WORKSPACE_ADD_PEOPLE_LV_3: (parentId: string, childId: string, grandChildId: string) => `${path.WORKSPACES_MINI_APPS}/${parentId}/${childId}/${grandChildId}/add-people`,
 
   // workspace
   WORKSPACE_SLUG: (workspace: string) => `${path.WORKSPACES_MINI_APPS}/${workspace}`,

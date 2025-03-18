@@ -7,9 +7,13 @@ import People from "./_components/people"
 
 interface HomeMiniAppLayoutProps {
   miniApp: MiniApp
+  workspaceIdList: string[]
 }
 
-export default function HomeMiniAppLayout({ miniApp }: HomeMiniAppLayoutProps) {
+export default function HomeMiniAppLayout({
+  miniApp,
+  workspaceIdList
+}: HomeMiniAppLayoutProps) {
   return (
     <div>
       <div className="mb-7 mt-4 flex items-center space-x-5">
@@ -39,7 +43,10 @@ export default function HomeMiniAppLayout({ miniApp }: HomeMiniAppLayoutProps) {
           <BasicSettings miniAppData={miniApp} />
         </TabsContent>
         <TabsContent value="people">
-          <People miniAppSlug={miniApp.site_mini_app_id.toLocaleString()} />
+          <People
+            miniAppId={miniApp.site_mini_app_id.toLocaleString()}
+            workspaceIds={workspaceIdList}
+          />
         </TabsContent>
       </Tabs>
     </div>

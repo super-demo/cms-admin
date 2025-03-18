@@ -1,20 +1,23 @@
 import { GetListSiteUser } from "@/app/api/site-user/action"
-import { MAIN_SITE_ID } from "@/constants"
 import { PeopleTable } from "./people-table"
 import { columns } from "@/app/(control-panel)/people/_components/columns"
 
 interface PeopleProps {
-  miniAppSlug: string
+  miniAppId: string
+  workspaceIds: string[]
 }
 
-export default async function People({ miniAppSlug }: PeopleProps) {
+export default async function People({ miniAppId, workspaceIds }: PeopleProps) {
   const excludedRole = [1, 2]
 
-  const teamList = await GetListSiteUser(MAIN_SITE_ID, excludedRole)
-  console.log(teamList)
-  //   const peopleList = await GetListSiteUser(MAIN_SITE_ID, peopleRole)
+  const teamList = await GetListSiteUser(Number(miniAppId), excludedRole)
 
   return (
-    <PeopleTable columns={columns} data={teamList} miniAppSlug={miniAppSlug} />
+    <PeopleTable
+      columns={columns}
+      data={teamList}
+      miniAppSlug={miniAppId}
+      workspaceIds={workspaceIds}
+    />
   )
 }

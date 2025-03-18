@@ -74,9 +74,7 @@ interface AddPeopleClientProps {
   siteUserList: AddUserTableForm[]
 }
 
-export default function AddPeopleClient({
-  siteUserList
-}: AddPeopleClientProps) {
+export default function AddPeopleTable({ siteUserList }: AddPeopleClientProps) {
   const router = useRouter()
 
   const userList = siteUserList.filter(

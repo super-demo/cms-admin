@@ -1,11 +1,14 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
 import { GetListWorkspace, GetWorkspace } from "@/app/api/site/action"
-import { People } from "./_components/people"
+
 import SettingsWorkspace from "./_components/settings"
 import WorkspaceThread from "./_components/workspace-thread"
 import MiniAppThread from "./_components/mini-app-thread"
 import { GetListMiniApp } from "@/app/api/site-mini-apps/action"
+import { PeopleTable } from "./_components/people"
+import { columns } from "@/app/(control-panel)/people/_components/columns"
+import { GetListSiteUser } from "@/app/api/site-user/action"
 
 export default async function WorkspaceClient({
   params
@@ -19,12 +22,13 @@ export default async function WorkspaceClient({
   const workspaceId = workspaceIdList[workspaceIdList.length - 1]
 
   const workspace = await GetWorkspace(Number(workspaceId))
-
   const workspaceList = await GetListWorkspace(Number(workspaceId))
-
   const miniAppList = await GetListMiniApp(Number(workspaceId))
 
   const isMaxLevel = workspaceIdList.length >= 3
+
+  const excludedRole = [1, 2]
+  const teamList = await GetListSiteUser(Number(workspaceId), excludedRole)
 
   return (
     <div>
@@ -68,7 +72,11 @@ export default async function WorkspaceClient({
           />
         </TabsContent>
         <TabsContent value="people">
-          <People />
+          <PeopleTable
+            columns={columns}
+            data={teamList}
+            workspaceIds={workspaceIdList}
+          />
         </TabsContent>
         <TabsContent value="settings">
           <SettingsWorkspace workspace={workspace} />
