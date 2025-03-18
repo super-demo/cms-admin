@@ -4,6 +4,8 @@ import { GetListWorkspace, GetWorkspace } from "@/app/api/site/action"
 import { People } from "./_components/people"
 import SettingsWorkspace from "./_components/settings"
 import WorkspaceThread from "./_components/workspace-thread"
+import MiniAppThread from "./_components/mini-app-thread"
+import { GetListMiniApp } from "@/app/api/site-mini-apps/action"
 
 export default async function WorkspaceClient({
   params
@@ -19,6 +21,8 @@ export default async function WorkspaceClient({
   const workspace = await GetWorkspace(Number(workspaceId))
 
   const workspaceList = await GetListWorkspace(Number(workspaceId))
+
+  const miniAppList = await GetListMiniApp(Number(workspaceId))
 
   const isMaxLevel = workspaceIdList.length >= 3
 
@@ -57,7 +61,12 @@ export default async function WorkspaceClient({
             workspaceIdList={workspaceIdList}
           />
         </TabsContent>
-        <TabsContent value="mini-app">{/* <MiniApps /> */}</TabsContent>
+        <TabsContent value="mini-app">
+          <MiniAppThread
+            miniApps={miniAppList}
+            workspaceIdList={workspaceIdList}
+          />
+        </TabsContent>
         <TabsContent value="people">
           <People />
         </TabsContent>

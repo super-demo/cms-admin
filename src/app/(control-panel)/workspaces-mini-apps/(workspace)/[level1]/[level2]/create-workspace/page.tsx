@@ -7,10 +7,13 @@ import { useParams, useRouter } from "next/navigation"
 export default function Page() {
   const router = useRouter()
 
-  const { level3: parentId } = useParams<{ level3: string }>()
+  const { level1: grandParentId, level2: parentId } = useParams<{
+    level1: string
+    level2: string
+  }>()
 
   function handlePush() {
-    router.push(pathWithSlug.WORKSPACE_SLUG(parentId))
+    router.push(pathWithSlug.WORKSPACE_SECOND_LEVEL(grandParentId, parentId))
   }
 
   return <CreateWorkspaceForm parentId={parentId} handlePush={handlePush} />

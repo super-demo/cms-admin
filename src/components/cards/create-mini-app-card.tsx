@@ -1,14 +1,13 @@
 "use client"
 
-import { path } from "@/constants/path"
-import { useRouter } from "next/navigation"
 import { HiOutlinePlus } from "react-icons/hi2"
+import { CreateCardProps } from "./create-workspace-card"
 
-export function CreateMiniAppCard() {
-  const router = useRouter()
-  const handleClick = () => {
-    router.push(path.CREATE_MINI_APP)
-  }
+export function CreateMiniAppCard({ handleClick }: CreateCardProps) {
+  // const router = useRouter()
+  // const handleClick = () => {
+  //   router.push(path.CREATE_MINI_APP)
+  // }
 
   return (
     <div

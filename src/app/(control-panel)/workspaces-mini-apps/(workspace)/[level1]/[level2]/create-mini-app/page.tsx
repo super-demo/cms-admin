@@ -1,6 +1,6 @@
 "use client"
 
-import CreateWorkspaceForm from "@/components/forms/create-workspace-form"
+import CreateMiniAppForm from "@/components/forms/create-mini-app-form"
 import { pathWithSlug } from "@/constants/path"
 import { useParams, useRouter } from "next/navigation"
 
@@ -13,9 +13,8 @@ export default function Page() {
   }>()
 
   function handlePush() {
-    console.log(pathWithSlug.WORKSPACE_SECOND_LEVEL(grandParentId, parentId))
     router.push(pathWithSlug.WORKSPACE_SECOND_LEVEL(grandParentId, parentId))
   }
 
-  return <CreateWorkspaceForm parentId={parentId} handlePush={handlePush} />
+  return <CreateMiniAppForm parentId={parentId} handlePush={handlePush} />
 }

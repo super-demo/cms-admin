@@ -15,10 +15,10 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import IconUpload from "./_components/icon-upload"
 import { useRouter } from "next/navigation"
 import { CreateMiniApp } from "@/app/api/site-mini-apps/action"
-import { path } from "@/constants/path"
+import IconUpload from "@/app/(control-panel)/workspaces-mini-apps/(workspace)/create-mini-app/_components/icon-upload"
+
 
 const FormSchema = z.object({
   miniAppName: z.string().min(2, {
@@ -30,7 +30,15 @@ const FormSchema = z.object({
   })
 })
 
-export default function Page() {
+interface CreateMiniAppFormProps {
+  parentId: string
+  handlePush: () => void
+}
+
+export default function CreateMiniAppForm({
+  parentId,
+  handlePush
+}: CreateMiniAppFormProps) {
   const router = useRouter()
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -52,10 +60,8 @@ export default function Page() {
     //   )
     // })
 
-    console.log(data)
-
     const payload = {
-      site_id: 1,
+      site_id: Number(parentId),
       slug: data.miniAppName,
       description: data.description,
       link_url: data.webhookUrl,
@@ -65,12 +71,11 @@ export default function Page() {
     await CreateMiniApp(payload)
 
     form.reset()
-    router.push(path.WORKSPACES_MINI_APPS)
+    handlePush()
   }
 
   function handleCancel() {
     form.reset()
-
     router.back()
   }
 

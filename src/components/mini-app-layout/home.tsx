@@ -1,32 +1,20 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
-
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "../ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
+import { MiniApp } from "@/app/api/site-mini-apps/type"
 import BasicSettings from "./_components/basic-settings"
-import { GetMiniApp } from "@/app/api/site-mini-apps/action"
 import People from "./_components/people"
 
-export function parseSlug(slug: string) {
-  return decodeURIComponent(slug)
+interface HomeMiniAppLayoutProps {
+  miniApp: MiniApp
 }
 
-export default async function Page({
-  params
-}: {
-  params: Promise<{ slug: string }>
-}) {
-  // const { slug: params } = useParams<{ slug: string }>()
-  // const miniApp = await GetMiniApp(params)
-  const slug = (await params).slug
-
-  const miniApp = await GetMiniApp(Number(slug))
-
+export default function HomeMiniAppLayout({ miniApp }: HomeMiniAppLayoutProps) {
   return (
     <div>
       <div className="mb-7 mt-4 flex items-center space-x-5">
         <Avatar>
           <AvatarImage
-            // src="https://github.com/chayakorn2002.png"
             src={miniApp.image_url}
             alt="workspace_icon"
             className="size-16 rounded-full"
@@ -51,7 +39,7 @@ export default async function Page({
           <BasicSettings miniAppData={miniApp} />
         </TabsContent>
         <TabsContent value="people">
-          <People miniAppSlug={slug} />
+          <People miniAppSlug={miniApp.site_mini_app_id.toLocaleString()} />
         </TabsContent>
       </Tabs>
     </div>

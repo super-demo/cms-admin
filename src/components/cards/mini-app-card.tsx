@@ -1,28 +1,27 @@
 "use client"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
-import { useRouter } from "next/navigation"
-import { pathWithSlug } from "@/constants/path"
 
 interface MiniAppCardProps {
   mini_app_id: number
   slug: string
   image_url: string
+  handleClick?: () => void
 }
 
 export default function MiniAppCard({
-  mini_app_id,
   slug,
-  image_url
+  image_url,
+  handleClick
 }: MiniAppCardProps) {
-  const router = useRouter()
+  // const router = useRouter()
 
-  const handleClick = () => {
-    console.log("mini_app_id", mini_app_id)
-    const id = mini_app_id.toLocaleString()
+  // const handleClick = () => {
+  //   console.log("mini_app_id", mini_app_id)
+  //   const id = mini_app_id.toLocaleString()
 
-    router.push(pathWithSlug.MINI_APP_SLUG(id))
-  }
+  //   router.push(pathWithSlug.MINI_APP_SLUG(id))
+  // }
 
   return (
     <div className="flex space-x-5">

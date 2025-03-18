@@ -8,9 +8,10 @@ interface PeopleProps {
 }
 
 export default async function People({ miniAppSlug }: PeopleProps) {
-  //   const peopleRole = [1, 2, 3, 4, 5]
+  const excludedRole = [1, 2]
 
-  const teamList = await GetListSiteUser(MAIN_SITE_ID)
+  const teamList = await GetListSiteUser(MAIN_SITE_ID, excludedRole)
+  console.log(teamList)
   //   const peopleList = await GetListSiteUser(MAIN_SITE_ID, peopleRole)
 
   return (
