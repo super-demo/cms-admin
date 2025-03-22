@@ -14,6 +14,8 @@ interface TeamClientProps {
 
 export const value = "add"
 
+//TODO: Implement Bulk Import, and filter by role, search, and pagination
+
 export default function TeamClient({ teamList }: TeamClientProps) {
   const [accordionOpen, setAccordionOpen] = useState<string | undefined>(
     undefined
@@ -50,22 +52,13 @@ export default function TeamClient({ teamList }: TeamClientProps) {
             <FolderDown />
             Bulk Import
           </Button>
-          {/* <Button
-            variant={"secondary"}
-            className="pt-2.5"
-            onClick={handleAddPeople}
-            disabled
-          >
-            <QrCode />
-            QR Code
-          </Button> */}
         </div>
       </div>
       <AddTeam
         accordionValue={accordionOpen}
         setAccordionValue={setAccordionOpen}
       />
-      <UserListTable columns={columns} data={teamList} />
+      <UserListTable columns={columns} data={teamList}  />
     </div>
   )
 }

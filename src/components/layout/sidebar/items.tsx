@@ -10,12 +10,6 @@ import { path } from "@/constants/path"
 
 export const sidebarItems = {
   main: [
-    // {
-    //   title: "Home",
-    //   url: path.HOME,
-    //   icon: House,
-    //   isActive: true
-    // },
     {
       title: "Team",
       url: path.TEAM,

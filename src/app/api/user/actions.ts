@@ -17,6 +17,8 @@ export const GetUserProfile = async (userId: number, accessToken?: string) => {
       authorizationToken = session?.user.jwt.accessToken
     }
 
+    console.log("Token:", authorizationToken)
+
     const response = await fetch(`${config.baseUrl}/users/${userId}/profile`, {
       method: "GET",
       headers: {

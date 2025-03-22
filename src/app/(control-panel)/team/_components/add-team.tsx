@@ -1,3 +1,5 @@
+"use client"
+
 import { roleConst, roleList } from "@/app/api/site-user/constants"
 import {
   Accordion,
@@ -29,6 +31,7 @@ import { z } from "zod"
 import { value } from "./team-client"
 import { MAIN_SITE_ID } from "@/constants"
 import { AddUserToSite } from "@/app/api/site-user/action"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -48,6 +51,8 @@ export default function AddTeam({
   accordionValue,
   setAccordionValue
 }: AddTeamProps) {
+  const router = useRouter()
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,11 +66,14 @@ export default function AddTeam({
       {
         site_id: MAIN_SITE_ID,
         email: data.email,
-        user_level_id: roleList.find((role) => role.role === data.role)?.id ?? 5
+        site_user_level_id:
+          roleList.find((role) => role.role === data.role)?.id ?? 5
       }
     ]
 
     await AddUserToSite(payload)
+    form.reset()
+    router.refresh()
   }
 
   const handleAccordionChange = (value: string) => {
@@ -77,7 +85,6 @@ export default function AddTeam({
   return (
     <div>
       <div>
-        {/* <h1 className="my-2 mb-4 text-lg">Add people</h1> */}
         <div className="text-xs text-neutral-500">
           <ul className="list-inside list-disc space-y-1">
             <li>

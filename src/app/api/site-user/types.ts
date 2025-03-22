@@ -16,7 +16,7 @@ export interface SiteUser {
 export interface AddUserForm {
     site_id: number
     email: string
-    user_level_id: number
+    site_user_level_id: number
 }
 
 export interface AddUserTableForm {
