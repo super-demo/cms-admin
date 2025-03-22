@@ -1,9 +1,8 @@
+import { MiniApp } from "@/app/api/site-mini-apps/type"
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
 import { Badge } from "../ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
-import { MiniApp } from "@/app/api/site-mini-apps/type"
 import BasicSettings from "./_components/basic-settings"
-import People from "./_components/people"
 
 interface HomeMiniAppLayoutProps {
   miniApp: MiniApp
@@ -37,17 +36,17 @@ export default function HomeMiniAppLayout({
       <Tabs defaultValue="basic-settings" className="w-full">
         <TabsList>
           <TabsTrigger value="basic-settings">Basic settings</TabsTrigger>
-          <TabsTrigger value="people">People</TabsTrigger>
+          {/* <TabsTrigger value="people">People</TabsTrigger> */}
         </TabsList>
         <TabsContent value="basic-settings">
           <BasicSettings miniAppData={miniApp} />
         </TabsContent>
-        <TabsContent value="people">
+        {/* <TabsContent value="people">
           <People
             miniAppId={miniApp.site_mini_app_id.toLocaleString()}
             workspaceIds={workspaceIdList}
           />
-        </TabsContent>
+        </TabsContent> */}
       </Tabs>
     </div>
   )

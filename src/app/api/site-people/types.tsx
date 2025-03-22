@@ -1,12 +1,11 @@
+import { Role } from "../site-user/constants"
 import { UserProfile } from "../user/types"
-import { Role } from "./constants"
 
-export interface SiteUser {
-  site_user_id: number
+export interface SitePeople {
+  site_people_id: number
   site_id: number
   user_id: number
   user: UserProfile
-  site_user_level_id: number
   is_active: boolean
   created_at: string
   created_by: number
@@ -15,30 +14,29 @@ export interface SiteUser {
   deleted_at: string
 }
 
-export interface AddUserForm {
+export interface AddPeopleForm {
   site_id: number
   email: string
-  site_user_level_id: number
+  sub_role_id: number
 }
 
-export interface AddUserTableForm {
+export interface AddPeopleTableForm {
   id: string
   email: string
   role: Role
 }
 
-export interface UpdateSiteUserPayload {
-  site_user_id: number
+export interface UpdateSitePeoplePayload {
+  site_people_id: number
   site_id?: number
   user_id: number
-  site_user_level_id: number
   is_active?: boolean
   created_by: number
   updated_by: number
 }
 
-export interface DeleteSiteUserPayload {
-  site_user_id: number
+export interface DeleteSitePeoplePayload {
+  site_people_id: number
   site_id: number
   user_id: number
 }

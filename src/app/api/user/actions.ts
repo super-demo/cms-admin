@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth"
 import authOption from "@/app/api/auth/[...nextauth]/auth-option"
 import { GoogleSignInToken, UserProfile } from "@/app/api/user/types"
 import config from "@/config"
-import { ApiResponse } from "../../../../types/api"
+import { ApiResponse } from "../../../types/api"
 
 export const GetUserProfile = async (userId: number, accessToken?: string) => {
   try {
@@ -16,8 +16,6 @@ export const GetUserProfile = async (userId: number, accessToken?: string) => {
       const session = await getServerSession(authOption)
       authorizationToken = session?.user.jwt.accessToken
     }
-
-    console.log("Token:", authorizationToken)
 
     const response = await fetch(`${config.baseUrl}/users/${userId}/profile`, {
       method: "GET",

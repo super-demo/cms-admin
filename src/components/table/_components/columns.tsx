@@ -1,31 +1,8 @@
 "use client"
 
-import type { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, MoreHorizontal, PencilLine, Trash2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { UserProfile } from "@/app/api/user/types"
-import ShortnameImage from "@/lib/shortname-image"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select"
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle
-} from "@/components/ui/dialog"
+import { roleConst, roleList } from "@/app/api/site-user/constants"
+import { DeleteSiteUserPayload } from "@/app/api/site-user/types"
+import { UserProfileWithRole } from "@/app/api/user/types"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -36,23 +13,29 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog"
-import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@/components/ui/form"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
+import ShortnameImage from "@/lib/shortname-image"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { roleConst, roleList } from "@/app/api/site-user/constants"
+import type { ColumnDef } from "@tanstack/react-table"
+import { ArrowUpDown, MoreHorizontal, Trash2 } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import { z } from "zod"
+import { DeleteSiteUser } from "../../../app/api/site-user/action"
 
 interface DataTableRowActionsProps {
-  row: UserProfile
+  row: UserProfileWithRole
+  siteId: number
+  siteUserId?: number // Add this if available
 }
 
 const formSchema = z.object({
@@ -64,9 +47,15 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
-const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
+const DataTableRowActions = ({
+  row,
+  siteId,
+  siteUserId
+}: DataTableRowActionsProps) => {
   const [showEditDialog, setShowEditDialog] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -76,10 +65,36 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
     }
   })
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data)
-    // setShowEditDialog(false)
+  const getUserLevelIdFromRole = (role: string): number => {
+    const roleEntry = roleList.find((r) => r.role === role)
+    return roleEntry ? roleEntry.id : 5 // Default to Viewer if not found
   }
+
+  // const onSubmit = async (data: FormValues) => {
+  //   try {
+  //     setIsSubmitting(true)
+
+  //     const payload: UpdateSiteUserPayload = {
+  //       site_user_id: siteUserId || 0, // If you have it
+  //       user_id: row.user_id,
+  //       site_id: siteId,
+  //       site_user_level_id: getUserLevelIdFromRole(data.role),
+  //       is_active: true,
+  //       created_by: 1, // Hardcoded for now
+  //       updated_by: 1 // Hardcoded for now
+  //     }
+
+  //     await UpdateSiteUser(payload)
+  //     toast.success("User updated successfully")
+  //     setShowEditDialog(false)
+  //     router.refresh()
+  //   } catch (error) {
+  //     console.error("Failed to update user:", error)
+  //     toast.error("Failed to update user")
+  //   } finally {
+  //     setIsSubmitting(false)
+  //   }
+  // }
 
   const handleEditClick = () => {
     setShowEditDialog(true)
@@ -89,8 +104,26 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
     setShowDeleteDialog(true)
   }
 
-  const handleConfirmDelete = () => {
-    setShowDeleteDialog(false)
+  const handleConfirmDelete = async () => {
+    try {
+      setIsSubmitting(true)
+
+      const payload: DeleteSiteUserPayload = {
+        site_user_id: siteUserId || 0, // If you have it
+        site_id: siteId,
+        user_id: row.user_id
+      }
+
+      await DeleteSiteUser(payload)
+      toast.success("User deleted successfully")
+      router.refresh()
+    } catch (error) {
+      console.error("Failed to delete user:", error)
+      toast.error("Failed to delete user")
+    } finally {
+      setIsSubmitting(false)
+      setShowDeleteDialog(false)
+    }
   }
 
   return (
@@ -103,12 +136,12 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem
+          {/* <DropdownMenuItem
             onClick={handleEditClick}
             disabled={row.google_token !== ""}
           >
             <PencilLine className="mr-2 h-4 w-4" /> Edit
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <DropdownMenuItem
             onClick={handleDeleteClick}
             className="text-red-500 hover:!text-red-500"
@@ -119,7 +152,7 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
       </DropdownMenu>
 
       {/* Edit User Dialog */}
-      <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
+      {/* <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit User</DialogTitle>
@@ -129,7 +162,7 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="w-full space-y-4"
             >
-              {/* Email Field */}
+
               <FormField
                 control={form.control}
                 name="email"
@@ -146,7 +179,7 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
                 )}
               />
 
-              {/* Role Field */}
+
               <FormField
                 control={form.control}
                 name="role"
@@ -177,21 +210,23 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
                 )}
               />
 
-              {/* Submit Button */}
+
               <DialogFooter className="mt-4">
-                <Button type="submit">Save changes</Button>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? "Saving..." : "Save changes"}
+                </Button>
               </DialogFooter>
             </form>
           </Form>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="mb-1 text-xl">
-              Confirm delete user ?
+              Confirm delete user?
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete the
@@ -203,8 +238,9 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
             <AlertDialogAction
               onClick={handleConfirmDelete}
               className="bg-red-500 hover:bg-red-600"
+              disabled={isSubmitting}
             >
-              Delete
+              {isSubmitting ? "Deleting..." : "Delete"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -213,7 +249,7 @@ const DataTableRowActions = ({ row }: DataTableRowActionsProps) => {
   )
 }
 
-export const columns: ColumnDef<UserProfile>[] = [
+export const columns = (siteId: number): ColumnDef<UserProfileWithRole>[] => [
   {
     accessorKey: "id",
     header: () => {
@@ -297,7 +333,7 @@ export const columns: ColumnDef<UserProfile>[] = [
 
       return (
         <div className="flex justify-end pr-4">
-          <DataTableRowActions row={user} />
+          <DataTableRowActions row={user} siteId={siteId} />
         </div>
       )
     }

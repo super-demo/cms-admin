@@ -1,7 +1,7 @@
 import { withAuth } from "next-auth/middleware"
 import { NextResponse } from "next/server"
 
-const PATH_ACCESSIBLE = ["/sign"]
+const PATH_ACCESSIBLE = ["/"]
 
 export default withAuth(
   function middleware(req) {
@@ -22,7 +22,7 @@ export default withAuth(
       }
     },
     pages: {
-      signIn: "/sign"
+      signIn: "/"
     }
   }
 )

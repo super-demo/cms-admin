@@ -53,7 +53,6 @@ const authOption: NextAuthOptions = {
           userLevelId: userProfile.user_level_id,
           googleSignInToken: account.access_token as string
         }
-
       } catch (error) {
         throw error
       }

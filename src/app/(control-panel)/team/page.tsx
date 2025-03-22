@@ -7,5 +7,5 @@ export default async function Page() {
 
   const teamList = await GetListSiteUser(MAIN_SITE_ID, teamRole)
 
-  return <TeamClient teamList={teamList} />
+  return <TeamClient teamList={teamList} siteId={1} />
 }

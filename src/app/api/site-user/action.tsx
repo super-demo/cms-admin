@@ -2,8 +2,13 @@
 
 import FetchInstance from "@/lib/fetch-instance"
 import { HttpError } from "@/lib/http-error"
-import { AddUserForm, SiteUser } from "./types"
 import { UserProfile, UserProfileWithRole } from "../user/types"
+import {
+  AddUserForm,
+  DeleteSiteUserPayload,
+  SiteUser,
+  UpdateSiteUserPayload
+} from "./types"
 
 export async function AddUserToSite(
   payload: AddUserForm[]
@@ -59,6 +64,48 @@ export async function GetListSiteUser(
   }
 }
 
+export async function UpdateSiteUser(
+  payload: UpdateSiteUserPayload
+): Promise<UpdateSiteUserPayload> {
+  try {
+    const response = await FetchInstance(`/site-users/update`, {
+      method: "PUT",
+      body: JSON.stringify(payload)
+    })
+
+    const result = await response.json()
+
+    if (!response.ok)
+      throw new HttpError(result.status.message, result.status.code)
+
+    return result
+  } catch (error) {
+    console.error("Error updating site user:", error)
+    throw error
+  }
+}
+
+export async function DeleteSiteUser(
+  payload: DeleteSiteUserPayload
+): Promise<DeleteSiteUserPayload> {
+  try {
+    const response = await FetchInstance(`/site-users/delete`, {
+      method: "DELETE",
+      body: JSON.stringify(payload)
+    })
+
+    const result = await response.json()
+
+    if (!response.ok)
+      throw new HttpError(result.status.message, result.status.code)
+
+    return result
+  } catch (error) {
+    console.error("Error deleting site user:", error)
+    throw error
+  }
+}
+
 const getRoleFromUserLevel = (
   user_level_id: number
 ): UserProfileWithRole["role"] => {
@@ -74,7 +121,7 @@ const getRoleFromUserLevel = (
   return roleMap[user_level_id] || ""
 }
 
-const transformUserProfile = (user: UserProfile): UserProfileWithRole => {
+function transformUserProfile(user: UserProfile): UserProfileWithRole {
   return {
     ...user,
     role: getRoleFromUserLevel(user.user_level_id)

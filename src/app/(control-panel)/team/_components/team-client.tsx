@@ -1,22 +1,20 @@
 "use client"
-
+import { UserProfileWithRole } from "@/app/api/user/types" // Make sure this is imported
+import { columns } from "@/components/table/_components/columns"
+import { UserListTable } from "@/components/table/user-table"
 import { Button } from "@/components/ui/button"
 import { FolderDown, Plus } from "lucide-react"
-import { UserProfile } from "@/app/api/user/types"
-import AddTeam from "./add-team"
 import { useState } from "react"
-import { UserListTable } from "@/components/table/user-table"
-import { columns } from "@/components/table/_components/columns"
+import AddTeam from "./add-team"
 
 interface TeamClientProps {
-  teamList: UserProfile[]
+  teamList: UserProfileWithRole[] // Changed from UserProfile to UserProfileWithRole
+  siteId: number // Added siteId prop
 }
 
 export const value = "add"
-
 //TODO: Implement Bulk Import, and filter by role, search, and pagination
-
-export default function TeamClient({ teamList }: TeamClientProps) {
+export default function TeamClient({ teamList, siteId }: TeamClientProps) {
   const [accordionOpen, setAccordionOpen] = useState<string | undefined>(
     undefined
   )
@@ -26,7 +24,6 @@ export default function TeamClient({ teamList }: TeamClientProps) {
       setAccordionOpen(undefined)
       return
     }
-
     setAccordionOpen(value)
   }
 
@@ -58,7 +55,7 @@ export default function TeamClient({ teamList }: TeamClientProps) {
         accordionValue={accordionOpen}
         setAccordionValue={setAccordionOpen}
       />
-      <UserListTable columns={columns} data={teamList}  />
+      <UserListTable columns={columns(siteId)} data={teamList} />
     </div>
   )
 }
