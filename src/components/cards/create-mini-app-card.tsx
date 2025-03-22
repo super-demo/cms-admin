@@ -4,11 +4,6 @@ import { HiOutlinePlus } from "react-icons/hi2"
 import { CreateCardProps } from "./create-workspace-card"
 
 export function CreateMiniAppCard({ handleClick }: CreateCardProps) {
-  // const router = useRouter()
-  // const handleClick = () => {
-  //   router.push(path.CREATE_MINI_APP)
-  // }
-
   return (
     <div
       className="hover-card flex w-[236px] flex-col items-center justify-center space-y-4 rounded-2xl border border-gray-200 p-6"

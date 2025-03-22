@@ -3,9 +3,7 @@
 import * as React from "react"
 import {
   type ColumnDef,
-  type ColumnFiltersState,
   type SortingState,
-  type VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -27,110 +25,94 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "../ui/select"
+import { roleList } from "@/app/api/site-user/constants"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
 
-export function UserTable<TData, TValue>({
+export function UserListTable<TData, TValue>({
   columns,
   data
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const [globalFilter, setGlobalFilter] = React.useState<string>("")
+  const [roleFilter, setRoleFilter] = React.useState<string>("")
 
   const table = useReactTable({
     data,
     columns,
+    initialState: {
+      pagination: { pageSize: 10 } // Strictly limit rows
+    },
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    globalFilterFn: (row, filterValue) => {
+      const searchValue = (filterValue ?? "").toString().toLowerCase()
+      const name = (row.getValue("name") ?? "").toString().toLowerCase()
+      const email = (row.getValue("email") ?? "").toString().toLowerCase()
+      const role = (row.getValue("role") ?? "").toString().toLowerCase()
+
+      // Filter by search input (name/email) and role
+      console.log(roleFilter)
+
+      return (
+        (name.includes(searchValue) || email.includes(searchValue)) &&
+        (roleFilter ? role === roleFilter.toLowerCase() : true)
+      )
+    },
     state: {
       sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection
-    }
+      rowSelection,
+      globalFilter
+    },
+    onGlobalFilterChange: setGlobalFilter
   })
 
   return (
     <div className="w-full">
       <div className="flex items-center justify-between py-4">
-        {/* <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">Filter Role</Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getColumn("role")
-              ?.getFilterValue()
-              ?.map((role: string) => (
-                <DropdownMenuCheckboxItem
-                  key={role}
-                  className="capitalize"
-                  checked={table
-                    .getColumn("role")
-                    ?.getFilterValue()
-                    ?.includes(role)}
-                  onCheckedChange={(value) =>
-                    table
-                      .getColumn("role")
-                      ?.setFilterValue(
-                        value
-                          ? [
-                              ...(table
-                                .getColumn("role")
-                                ?.getFilterValue() as string[]),
-                              role
-                            ]
-                          : (
-                              table
-                                .getColumn("role")
-                                ?.getFilterValue() as string[]
-                            ).filter((r: string) => r !== role)
-                      )
-                  }
-                >
-                  {role}
-                </DropdownMenuCheckboxItem>
-              ))}
-          </DropdownMenuContent>
-        </DropdownMenu> */}
-        {/* <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a workspace" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Workspaces</SelectLabel>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-              <SelectItem value="blueberry">Blueberry</SelectItem>
-              <SelectItem value="grapes">Grapes</SelectItem>
-              <SelectItem value="pineapple">Pineapple</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select> */}
-
         <Input
-          placeholder="Search..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
+          placeholder="Search by name or email..."
+          value={globalFilter}
+          onChange={(event) => setGlobalFilter(event.target.value)}
           className="max-w-sm"
         />
+
+        <Select
+          onValueChange={(value) => {
+            setRoleFilter(value)
+            setGlobalFilter("")
+          }}
+          defaultValue={roleFilter == "" ? "all" : ""}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select role" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All</SelectItem>
+            {roleList
+              .filter((role) => ![1, 2, 6].includes(role.id)) // Exclude Root (1) & Developer (2) & People (6)
+              .map((role) => (
+                <SelectItem key={role.id} value={role.role}>
+                  {role.role}
+                </SelectItem>
+              ))}
+          </SelectContent>
+        </Select>
       </div>
       <div className="rounded-md border">
         <ScrollArea className="h-[calc(100vh-300px)]">

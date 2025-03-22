@@ -1,4 +1,10 @@
-import { Building, UsersRound, Megaphone, Settings2 } from "lucide-react"
+import {
+  Building,
+  UsersRound,
+  Megaphone,
+  Settings2,
+  UserRoundCog
+} from "lucide-react"
 
 import { path } from "@/constants/path"
 
@@ -11,14 +17,19 @@ export const sidebarItems = {
     //   isActive: true
     // },
     {
+      title: "Team",
+      url: path.TEAM,
+      icon: UserRoundCog
+    },
+    {
+      title: "People & Roles",
+      url: path.PEOPLE,
+      icon: UsersRound
+    },
+    {
       title: "Workspaces & Mini Apps",
       url: path.WORKSPACES_MINI_APPS,
       icon: Building
-    },
-    {
-      title: "People & Permissions",
-      url: path.PEOPLE,
-      icon: UsersRound
     },
     {
       title: "Announcements",

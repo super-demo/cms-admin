@@ -6,6 +6,7 @@ export const path = {
   CREATE_MINI_APP: "/workspaces-mini-apps/create-mini-app",
   WORKSPACES_MINI_APPS: "/workspaces-mini-apps",
   MINI_APPS: "/workspaces-mini-apps/mini-apps",
+  TEAM: "/team",
   PEOPLE: "/people",
   PEOPLE_ADD: "/people/add",
   ANNOUNCEMENTS: "/announcements",
