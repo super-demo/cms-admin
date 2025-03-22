@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 // import { toast } from "@/components/hooks/use-toast"
+import { CreateWorkspace } from "@/app/api/site/action"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -15,10 +16,10 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useRouter } from "next/navigation"
 import { toast } from "@/hooks/use-toast"
-import { CreateWorkspace } from "@/app/api/site/action"
-import IconUpload from "@/app/(control-panel)/workspaces-mini-apps/(workspace)/create-workspace/_components/icon-upload"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import IconUpload from "../icon-upload"
 
 const FormSchema = z.object({
   name: z.string().nonempty("Workspace name is required"),
@@ -36,6 +37,7 @@ export default function CreateWorkspaceForm({
   handlePush
 }: CreateWorkspaceFormProps) {
   const router = useRouter()
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string>()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -60,7 +62,7 @@ export default function CreateWorkspaceForm({
       name: data.name,
       description: data.description,
       short_description: data.shortDescription,
-      image_url: "https://github.com/thyc.png"
+      image_url: uploadedImageUrl // Use the uploaded image URL from state
     }
     console.log(payload)
 
@@ -78,6 +80,12 @@ export default function CreateWorkspaceForm({
 
   // const { imageUrl, setImageUrl } = useState<string | null>(null)
 
+  // Handle image upload completion
+  const handleImageUploadComplete = (imageUrl: string) => {
+    // Update the state with the uploaded image URL
+    setUploadedImageUrl(imageUrl)
+  }
+
   return (
     <>
       <div>
@@ -88,7 +96,7 @@ export default function CreateWorkspaceForm({
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-6"
         >
-          <IconUpload />
+          <IconUpload onUploadComplete={handleImageUploadComplete} />
 
           <FormField
             control={form.control}
