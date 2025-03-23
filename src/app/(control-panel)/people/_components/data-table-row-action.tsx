@@ -25,6 +25,7 @@ import { ArrowUpDown, MoreHorizontal, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
+import { MAIN_SITE_ID } from "../../../../constants"
 import { GetListPeopleRole } from "../../../api/people-role/actions"
 import { PeopleRole } from "../../../api/people-role/types"
 import { DeleteSitePeople } from "../../../api/site-people/actions"
@@ -128,7 +129,7 @@ export const peopleColumns = (
     useEffect(() => {
       const fetchRoles = async () => {
         try {
-          const roles = await GetListPeopleRole(siteId)
+          const roles = await GetListPeopleRole(MAIN_SITE_ID)
           setPeopleRoles(roles)
 
           // Find the role that matches this person's sub_role_id

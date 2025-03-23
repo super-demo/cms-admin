@@ -158,10 +158,17 @@ export default function AddPeopleWorkspaceTable({
   }
 
   // Handle role change
-  const handleRoleChange = (userId: string, newRole: roleConst) => {
+  const handleRoleChange = (userId: string, newRole: PeopleRole["slug"]) => {
     setUsers(
       users.map((user) =>
-        user.id === userId ? { ...user, role: newRole } : user
+        user.id === userId
+          ? {
+              ...user,
+              sub_role:
+                peopleRoles.find((role) => role.slug === newRole) ??
+                peopleRoles[0]
+            }
+          : user
       )
     )
     toast({
@@ -465,7 +472,10 @@ export default function AddPeopleWorkspaceTable({
                         <Select
                           value={user.sub_role.slug}
                           onValueChange={(value) =>
-                            handleRoleChange(user.id, value as roleConst)
+                            handleRoleChange(
+                              user.id,
+                              value as PeopleRole["slug"]
+                            )
                           }
                         >
                           <SelectTrigger className="w-[130px]">

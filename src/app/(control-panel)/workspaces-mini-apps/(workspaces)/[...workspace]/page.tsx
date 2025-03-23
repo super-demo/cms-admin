@@ -21,7 +21,6 @@ export default async function WorkspaceClient({
   console.log("params", workspaceIdList)
 
   const workspaceId = workspaceIdList[workspaceIdList.length - 1]
-  console.log("🚀 ~ workspaceId:", workspaceId)
 
   const workspace = await GetWorkspace(Number(workspaceId))
   const workspaceList = await GetListWorkspace(Number(workspaceId))
@@ -31,9 +30,7 @@ export default async function WorkspaceClient({
 
   const excludedRole = [1, 2]
   const teamList = await GetListSiteUser(Number(workspaceId), excludedRole)
-  console.log("🚀 ~ teamList:", teamList)
-  const peopleList = await GetListSitePeople(Number(workspaceId), excludedRole)
-  console.log("🚀 ~ peopleList:", peopleList)
+  const peopleList = await GetListSitePeople(Number(workspaceId))
 
   return (
     <div>

@@ -1,7 +1,5 @@
 "use client"
 
-import { columns } from "@/components/table/_components/columns"
-import { UserListTable } from "@/components/table/user-table"
 import { Button } from "@/components/ui/button"
 import { pathWithSlug } from "@/constants/path"
 import { FolderDown, Plus, QrCode } from "lucide-react"
@@ -9,6 +7,8 @@ import { useRouter } from "next/navigation"
 import { useMemo } from "react"
 import { UserProfileWithRole } from "../../../../../api/site-user/types"
 import { UserProfile } from "../../../../../api/user/types"
+import { peopleColumns } from "../../../../people/_components/data-table-row-action"
+import { PeopleListTable } from "../../../../people/_components/people-list-table"
 
 interface PeopleWorkspaceProps {
   peopleList: UserProfileWithRole[] // Changed from UserProfile to UserProfileWithRole
@@ -72,7 +72,6 @@ export default function PeopleWorkspace({
       router.push(pathWithSlug.WORKSPACE_ADD_PEOPLE_LV_1(workspaceIds[0]))
     }
   }
-  console.log("🚀 ~ transformedPeopleList:", transformedPeopleList)
 
   return (
     <div>
@@ -115,7 +114,12 @@ export default function PeopleWorkspace({
           </Button>
         </div>
       </div>
-      <UserListTable columns={columns(siteId)} data={transformedPeopleList} />
+      {/* <UserListTable columns={columns(siteId)} data={transformedPeopleList} /> */}
+      <PeopleListTable
+        columns={peopleColumns(siteId)}
+        data={transformedPeopleList}
+        siteId={1}
+      />
     </div>
   )
 }
