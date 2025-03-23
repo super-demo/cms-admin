@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
-import { User, Camera } from "lucide-react"
+import { Camera, User } from "lucide-react"
 import { useRef, useState } from "react"
 import { toast } from "sonner"
 
