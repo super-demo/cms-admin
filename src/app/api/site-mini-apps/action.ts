@@ -12,8 +12,6 @@ export async function GetMiniApp(id: number): Promise<MiniApp> {
 
         const result = await response.json()
 
-        console.log("Mini app:", result.data)
-
         if (!response.ok)
         throw new HttpError(result.status.message, result.status.code)
 
@@ -34,8 +32,6 @@ export async function GetListMiniApp(id: number): Promise<MiniApp[]> {
 
         const result = await response.json()
 
-        console.log("Mini app list:", result.data)
-
         if (!response.ok)
         throw new HttpError(result.status.message, result.status.code)
 
@@ -53,15 +49,11 @@ export async function CreateMiniApp(payload: CreateMiniAppForm): Promise<CreateM
         method: "POST",
         body: JSON.stringify(payload)
         })
-
-        console.log("payload",payload)
     
         const result = await response.json()
     
         if (!response.ok)
         throw new HttpError(result.status.message, result.status.code)
-    
-        console.log("Mini app created:", result)
     
         return result
     } catch (error) {

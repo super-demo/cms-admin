@@ -17,8 +17,6 @@ export default function WorkspaceThread({
 }: WorkspaceThreadProps) {
   const router = useRouter()
 
-  console.log("test test", workspaceIdList)
-
   return (
     <div className="my-6 flex space-x-5">
       {workspaceIdList.length < 3 && (

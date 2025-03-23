@@ -1,15 +1,9 @@
 "use client"
 
-import { path } from "@/constants/path"
-import { useRouter } from "next/navigation"
 import { HiOutlinePlus } from "react-icons/hi2"
+import { CreateCardProps } from "./create-workspace-card"
 
-export function CreateMiniAppCard() {
-  const router = useRouter()
-  const handleClick = () => {
-    router.push(path.CREATE_MINI_APP)
-  }
-
+export function CreateMiniAppCard({ handleClick }: CreateCardProps) {
   return (
     <div
       className="hover-card flex w-[236px] flex-col items-center justify-center space-y-4 rounded-2xl border border-gray-200 p-6"

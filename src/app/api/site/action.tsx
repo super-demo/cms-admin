@@ -12,8 +12,6 @@ export async function GetSite(id: number): Promise<Site> {
 
     const result = await response.json()
 
-    console.log("Site:", result.data)
-
     if (!response.ok)
       throw new HttpError(result.status.message, result.status.code)
 
@@ -32,8 +30,6 @@ export async function GetWorkspace(id: number): Promise<Workspace> {
 
     const result = await response.json()
 
-    console.log("Workspace:", result.data)
-
     if (!response.ok)
       throw new HttpError(result.status.message, result.status.code)
 
@@ -51,9 +47,6 @@ export async function GetListWorkspace(id: number): Promise<Workspace[]> {
     })
 
     const result = await response.json()
-
-    console.log("Site list:", id)
-    console.log("Site list:", result.data)
 
     if (!response.ok)
       throw new HttpError(result.status.message, result.status.code)
@@ -75,8 +68,6 @@ export async function CreateWorkspace(
       site_parent_id: parent_id
     }
 
-    console.log("Create workspace payload:", payload)
-
     const response = await FetchInstance(`/sites/create/workspace`, {
       method: "POST",
       body: JSON.stringify(payload)
@@ -86,8 +77,6 @@ export async function CreateWorkspace(
 
     if (!response.ok)
       throw new HttpError(result.status.message, result.status.code)
-
-    console.log("Create workspace:", result)
 
     return result
   } catch (error) {

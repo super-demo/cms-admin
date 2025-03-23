@@ -1,8 +1,14 @@
+import { GetListWorkspace, GetWorkspace } from "@/app/api/site/action"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
-import { GetListWorkspace, GetWorkspace } from "@/app/api/site/action"
-import { People } from "./_components/people"
+
+import { GetListMiniApp } from "@/app/api/site-mini-apps/action"
+import { GetListSiteUser } from "@/app/api/site-user/action"
+import { GetListSitePeople } from "../../../../api/site-people/actions"
+import MiniAppThread from "./_components/mini-app-thread"
+import PeopleWorkspace from "./_components/people-workspace"
 import SettingsWorkspace from "./_components/settings"
+import TeamWorkspace from "./_components/team-workspace"
 import WorkspaceThread from "./_components/workspace-thread"
 
 export default async function WorkspaceClient({
@@ -17,10 +23,14 @@ export default async function WorkspaceClient({
   const workspaceId = workspaceIdList[workspaceIdList.length - 1]
 
   const workspace = await GetWorkspace(Number(workspaceId))
-
   const workspaceList = await GetListWorkspace(Number(workspaceId))
+  const miniAppList = await GetListMiniApp(Number(workspaceId))
 
   const isMaxLevel = workspaceIdList.length >= 3
+
+  const excludedRole = [1, 2]
+  const teamList = await GetListSiteUser(Number(workspaceId), excludedRole)
+  const peopleList = await GetListSitePeople(Number(workspaceId))
 
   return (
     <div>
@@ -48,6 +58,7 @@ export default async function WorkspaceClient({
             <TabsTrigger value="workspace">Workspaces</TabsTrigger>
           )}
           <TabsTrigger value="mini-app">Mini Apps</TabsTrigger>
+          <TabsTrigger value="team">Team</TabsTrigger>
           <TabsTrigger value="people">People</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
@@ -57,9 +68,25 @@ export default async function WorkspaceClient({
             workspaceIdList={workspaceIdList}
           />
         </TabsContent>
-        <TabsContent value="mini-app">{/* <MiniApps /> */}</TabsContent>
+        <TabsContent value="mini-app">
+          <MiniAppThread
+            miniApps={miniAppList}
+            workspaceIdList={workspaceIdList}
+          />
+        </TabsContent>
+        <TabsContent value="team">
+          <TeamWorkspace
+            teamList={teamList}
+            siteId={Number(workspaceId)}
+            workspaceIds={workspaceIdList}
+          />
+        </TabsContent>
         <TabsContent value="people">
-          <People />
+          <PeopleWorkspace
+            peopleList={peopleList}
+            siteId={Number(workspaceId)}
+            workspaceIds={workspaceIdList}
+          />
         </TabsContent>
         <TabsContent value="settings">
           <SettingsWorkspace workspace={workspace} />
