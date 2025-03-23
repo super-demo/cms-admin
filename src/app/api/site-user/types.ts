@@ -42,3 +42,13 @@ export interface DeleteSiteUserPayload {
   site_id: number
   user_id: number
 }
+
+export interface UserProfileWithRole extends UserProfile {
+  site_people_id: number | undefined
+  role: "Root" | "Developer" | "Super Admin" | "Admin" | "Viewer" | "People"
+}
+
+export interface SiteUserWithRole extends SiteUser {
+  role: Role
+  sub_role: Role
+}

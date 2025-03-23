@@ -1,4 +1,4 @@
-import { Role } from "../site-user/constants"
+import { PeopleRole } from "../people-role/types"
 import { UserProfile } from "../user/types"
 
 export interface SitePeople {
@@ -23,7 +23,7 @@ export interface AddPeopleForm {
 export interface AddPeopleTableForm {
   id: string
   email: string
-  role: Role
+  sub_role: PeopleRole
 }
 
 export interface UpdateSitePeoplePayload {
