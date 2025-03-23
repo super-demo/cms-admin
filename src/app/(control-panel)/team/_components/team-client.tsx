@@ -1,14 +1,15 @@
 "use client"
-import { UserProfileWithRole } from "@/app/api/user/types" // Make sure this is imported
+
 import { columns } from "@/components/table/_components/columns"
 import { UserListTable } from "@/components/table/user-table"
 import { Button } from "@/components/ui/button"
 import { FolderDown, Plus } from "lucide-react"
 import { useState } from "react"
 import AddTeam from "./add-team"
+import { SiteUserWithRole } from "@/app/api/site-user/types"
 
 interface TeamClientProps {
-  teamList: UserProfileWithRole[] // Changed from UserProfile to UserProfileWithRole
+  teamList: SiteUserWithRole[] // Changed from UserProfile to UserProfileWithRole
   siteId: number // Added siteId prop
 }
 

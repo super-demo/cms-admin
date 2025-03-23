@@ -1,9 +1,18 @@
 "use server"
 
+import { MAIN_SITE_ID } from "@/constants"
 import FetchInstance from "../../../lib/fetch-instance"
 import { HttpError } from "../../../lib/http-error"
-import { UserProfile, UserProfileWithRole } from "../user/types"
-import { AddPeopleForm, DeleteSitePeoplePayload, SitePeople } from "./types"
+import { GetListPeopleRole } from "../people-role/actions"
+import { roleConst } from "../site-user/constants"
+import { SiteUserWithRole } from "../site-user/types"
+
+import {
+  AddPeopleForm,
+  DeleteSitePeoplePayload,
+  SitePeople,
+  SitePeopleWithRole
+} from "./types"
 
 export async function AddPeopleToSite(
   payload: AddPeopleForm[]
@@ -29,7 +38,7 @@ export async function AddPeopleToSite(
 export async function GetListSitePeople(
   site_id: number,
   roleFilter?: number[]
-): Promise<UserProfileWithRole[]> {
+): Promise<SitePeopleWithRole[]> {
   try {
     const response = await FetchInstance(`/site-people/list/${site_id}`, {
       method: "GET"
@@ -40,19 +49,26 @@ export async function GetListSitePeople(
     if (!response.ok)
       throw new HttpError(result.status.message, result.status.code)
 
-    const site_people_list: SitePeople[] = result.data
+    const sitePeopleList: SitePeople[] = result.data
+    const peopleRoles = await GetListPeopleRole(MAIN_SITE_ID)
 
-    const userProfileList = roleFilter
-      ? site_people_list
-          .map((userEntry) => userEntry.user)
-          .filter((user) => !roleFilter.includes(user.user_level_id))
-      : site_people_list.map((userEntry) => userEntry.user)
+    const sitePeopleListFiltered = roleFilter
+      ? sitePeopleList.filter((user) =>
+          roleFilter.includes(user.user.user_level_id)
+        )
+      : sitePeopleList
 
-    const userProfileWithRoleList = userProfileList.map(
-      (userProfile: UserProfile) => transformUserProfile(userProfile)
-    )
+    const sitePeopleWithRoleList = sitePeopleListFiltered.map((site_user) => {
+      return {
+        ...site_user,
+        role: getRoleFromUserLevel(site_user.user.user_level_id),
+        sub_role: peopleRoles.find(
+          (role) => role.people_role_id === site_user.user.sub_role_id
+        )!
+      }
+    })
 
-    return userProfileWithRoleList
+    return sitePeopleWithRoleList
   } catch (error) {
     console.error("Error fetching site user list:", error)
     throw error
@@ -80,22 +96,15 @@ export async function DeleteSitePeople(
 
 const getRoleFromUserLevel = (
   user_level_id: number
-): UserProfileWithRole["role"] => {
-  const roleMap: Record<number, UserProfileWithRole["role"]> = {
-    1: "Root",
-    2: "Developer",
-    3: "Super Admin",
-    4: "Admin",
-    5: "Viewer",
-    6: "People"
+): SiteUserWithRole["role"] => {
+  const roleMap: Record<number, SiteUserWithRole["role"]> = {
+    1: roleConst.Root,
+    2: roleConst.Developer,
+    3: roleConst.SuperAdmin,
+    4: roleConst.Admin,
+    5: roleConst.Viewer,
+    6: roleConst.People
   }
 
   return roleMap[user_level_id] || ""
-}
-
-const transformUserProfile = (user: UserProfile): UserProfileWithRole => {
-  return {
-    ...user,
-    role: getRoleFromUserLevel(user.user_level_id)
-  }
 }

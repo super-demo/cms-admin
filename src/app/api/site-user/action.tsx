@@ -2,13 +2,15 @@
 
 import FetchInstance from "@/lib/fetch-instance"
 import { HttpError } from "@/lib/http-error"
-import { UserProfile, UserProfileWithRole } from "../user/types"
+import { SiteUsersProfileWithRole } from "../user/types"
 import {
   AddUserForm,
   DeleteSiteUserPayload,
   SiteUser,
+  SiteUserWithRole,
   UpdateSiteUserPayload
 } from "./types"
+import { roleConst } from "./constants"
 
 export async function AddUserToSite(
   payload: AddUserForm[]
@@ -34,7 +36,7 @@ export async function AddUserToSite(
 export async function GetListSiteUser(
   id: number,
   roleFilter?: number[]
-): Promise<UserProfileWithRole[]> {
+): Promise<SiteUserWithRole[]> {
   try {
     const response = await FetchInstance(`/site-users/list/${id}`, {
       method: "GET"
@@ -45,19 +47,23 @@ export async function GetListSiteUser(
     if (!response.ok)
       throw new HttpError(result.status.message, result.status.code)
 
-    const site_user_list: SiteUser[] = result.data
+    const siteUserList: SiteUser[] = result.data
 
-    const userProfileList = roleFilter
-      ? site_user_list
-          .map((userEntry) => userEntry.user)
-          .filter((user) => !roleFilter.includes(user.user_level_id))
-      : site_user_list.map((userEntry) => userEntry.user)
+    const siteUserListFiltered = roleFilter
+      ? siteUserList.filter((user) =>
+          roleFilter.includes(user.user.user_level_id)
+        )
+      : siteUserList
 
-    const userProfileWithRoleList = userProfileList.map((userProfile) =>
-      transformUserProfile(userProfile)
-    )
+    const siteUserWithRoleList = siteUserListFiltered.map((site_user) => {
+      return {
+        ...site_user,
+        role: getRoleFromUserLevel(site_user.user.user_level_id),
+        sub_role: getRoleFromUserLevel(site_user.site_user_level_id)
+      }
+    })
 
-    return userProfileWithRoleList
+    return siteUserWithRoleList
   } catch (error) {
     console.error("Error fetching site user list:", error)
     throw error
@@ -108,22 +114,15 @@ export async function DeleteSiteUser(
 
 const getRoleFromUserLevel = (
   user_level_id: number
-): UserProfileWithRole["role"] => {
-  const roleMap: Record<number, UserProfileWithRole["role"]> = {
-    1: "Root",
-    2: "Developer",
-    3: "Super Admin",
-    4: "Admin",
-    5: "Viewer",
-    6: "People"
+): SiteUsersProfileWithRole["role"] => {
+  const roleMap: Record<number, SiteUsersProfileWithRole["role"]> = {
+    1: roleConst.Root,
+    2: roleConst.Developer,
+    3: roleConst.SuperAdmin,
+    4: roleConst.Admin,
+    5: roleConst.Viewer,
+    6: roleConst.People
   }
 
   return roleMap[user_level_id] || ""
-}
-
-function transformUserProfile(user: UserProfile): UserProfileWithRole {
-  return {
-    ...user,
-    role: getRoleFromUserLevel(user.user_level_id)
-  }
 }

@@ -6,9 +6,9 @@ import SettingsWorkspace from "./_components/settings"
 import WorkspaceThread from "./_components/workspace-thread"
 import MiniAppThread from "./_components/mini-app-thread"
 import { GetListMiniApp } from "@/app/api/site-mini-apps/action"
-import { PeopleTable } from "./_components/people"
-import { columns } from "@/app/(control-panel)/people/_components/columns"
 import { GetListSiteUser } from "@/app/api/site-user/action"
+import TeamWorkspace from "./_components/team-workspace"
+import PeopleWorkspace from "./_components/people-workspace"
 
 export default async function WorkspaceClient({
   params
@@ -27,7 +27,7 @@ export default async function WorkspaceClient({
 
   const isMaxLevel = workspaceIdList.length >= 3
 
-  const excludedRole = [1, 2]
+  const excludedRole = [1, 2, 6]
   const teamList = await GetListSiteUser(Number(workspaceId), excludedRole)
 
   return (
@@ -56,6 +56,7 @@ export default async function WorkspaceClient({
             <TabsTrigger value="workspace">Workspaces</TabsTrigger>
           )}
           <TabsTrigger value="mini-app">Mini Apps</TabsTrigger>
+          <TabsTrigger value="team">Team</TabsTrigger>
           <TabsTrigger value="people">People</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
@@ -71,10 +72,17 @@ export default async function WorkspaceClient({
             workspaceIdList={workspaceIdList}
           />
         </TabsContent>
+        <TabsContent value="team">
+          <TeamWorkspace
+            teamList={teamList}
+            siteId={Number(workspaceId)}
+            workspaceIds={workspaceIdList}
+          />
+        </TabsContent>
         <TabsContent value="people">
-          <PeopleTable
-            columns={columns}
-            data={teamList}
+          <PeopleWorkspace
+            teamList={teamList}
+            siteId={Number(workspaceId)}
             workspaceIds={workspaceIdList}
           />
         </TabsContent>

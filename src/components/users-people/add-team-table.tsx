@@ -44,15 +44,8 @@ import { toast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import { Checkbox } from "@/components/ui/checkbox"
 import { roleConst, roleList } from "@/app/api/site-user/constants"
-import { MAIN_SITE_ID } from "@/constants"
 import { AddUserTableForm } from "@/app/api/site-user/types"
-
-// Mock function for adding users to site
-const AddUserToSite = async (users: any[]) => {
-  console.log("Adding users to site:", users)
-  // In a real implementation, this would make an API call
-  return Promise.resolve({ success: true })
-}
+import { AddUserToSite } from "@/app/api/site-user/action"
 
 interface User {
   id: string
@@ -72,9 +65,13 @@ type FormValues = z.infer<typeof formSchema>
 
 interface AddPeopleClientProps {
   siteUserList: AddUserTableForm[]
+  workspaceId: string
 }
 
-export default function AddPeopleTable({ siteUserList }: AddPeopleClientProps) {
+export default function AddTeamWorkspaceTable({
+  siteUserList,
+  workspaceId
+}: AddPeopleClientProps) {
   const router = useRouter()
 
   const userList = siteUserList.filter(
@@ -91,14 +88,14 @@ export default function AddPeopleTable({ siteUserList }: AddPeopleClientProps) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      role: roleConst.People
+      role: roleConst.Viewer
     }
   })
 
   const [users, setUsers] = useState<User[]>([])
 
   const [existingUsers, setExistingUsers] =
-    useState<AddUserTableForm[]>(userList)
+    useState<AddUserTableForm[]>(siteUserList)
 
   const [selectedUsers, setSelectedUsers] = useState<string[]>([])
 
@@ -125,9 +122,10 @@ export default function AddPeopleTable({ siteUserList }: AddPeopleClientProps) {
     })
 
     const addedUsers = users.map((user) => ({
-      site_id: MAIN_SITE_ID,
+      site_id: Number(workspaceId),
       email: user.email,
-      user_level_id: roleList.find((role) => role.role === user.role)?.id ?? 6
+      site_user_level_id:
+        roleList.find((role) => role.role === user.role)?.id ?? 5
     }))
 
     console.log(addedUsers)
@@ -161,7 +159,6 @@ export default function AddPeopleTable({ siteUserList }: AddPeopleClientProps) {
         user.id === userId ? { ...user, role: newRole } : user
       )
     )
-
     toast({
       title: "Success",
       description: "User role updated"
@@ -185,15 +182,6 @@ export default function AddPeopleTable({ siteUserList }: AddPeopleClientProps) {
         description: "User removed successfully"
       })
     }
-  }
-
-  // Handle selecting an existing user
-  const handleSelectUser = (userId: string) => {
-    setSelectedUsers((prev) =>
-      prev.includes(userId)
-        ? prev.filter((id) => id !== userId)
-        : [...prev, userId]
-    )
   }
 
   // Add selected users to the users list
@@ -234,16 +222,12 @@ export default function AddPeopleTable({ siteUserList }: AddPeopleClientProps) {
     <div className="container mx-auto">
       <div>
         <div>
-          <h1 className="my-2 text-xl font-bold">Add people</h1>
-          <div className="text-xs text-neutral-500">
+          <h1 className="my-2 text-xl font-bold">Add workspace team</h1>
+          <div className="mt-4 text-xs text-neutral-500">
             <ul className="list-inside list-disc space-y-1">
-              <li>Admin: Can manage all.</li>
+              <li>Admin: Can manage workspace and mini apps.</li>
               <li>
                 Viewer: Can only view content but cannot make any changes.
-              </li>
-              <li>
-                People: A general user who can access the Mini app with limited
-                permissions.
               </li>
             </ul>
           </div>
@@ -284,7 +268,7 @@ export default function AddPeopleTable({ siteUserList }: AddPeopleClientProps) {
                       </FormControl>
                       <SelectContent>
                         {roleList
-                          .filter((role) => ![1, 2, 3].includes(role.id)) // Exclude Root (1) & Developer (2)
+                          .filter((role) => ![1, 2, 3, 6].includes(role.id)) // Exclude Root (1) & Developer (2)
                           .map((role) => (
                             <SelectItem key={role.id} value={role.role}>
                               {role.role}
@@ -460,7 +444,11 @@ export default function AddPeopleTable({ siteUserList }: AddPeopleClientProps) {
                       <TableCell>{user.email}</TableCell>
                       <TableCell>
                         <Select
-                          value={user.role}
+                          value={
+                            user.role == roleConst.SuperAdmin
+                              ? roleConst.Admin
+                              : user.role
+                          }
                           onValueChange={(value) =>
                             handleRoleChange(user.id, value as roleConst)
                           }
@@ -470,7 +458,7 @@ export default function AddPeopleTable({ siteUserList }: AddPeopleClientProps) {
                           </SelectTrigger>
                           <SelectContent>
                             {roleList
-                              .filter((role) => ![1, 2, 3].includes(role.id)) // Exclude Root (1) & Developer (2)
+                              .filter((role) => ![1, 2, 3, 6].includes(role.id)) // Exclude Root (1) & Developer (2)
                               .map((role) => (
                                 <SelectItem key={role.id} value={role.role}>
                                   {role.role}

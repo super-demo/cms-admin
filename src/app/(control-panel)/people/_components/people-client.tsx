@@ -1,5 +1,5 @@
 "use client"
-import { UserProfile, UserProfileWithRole } from "@/app/api/user/types"
+import { UserProfile } from "@/app/api/user/types"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { FolderDown, Plus } from "lucide-react"
@@ -9,10 +9,12 @@ import AddPeople from "./add-people"
 import { peopleColumns } from "./data-table-row-action"
 import { PeopleListTable } from "./people-list-table"
 import RoleManagement from "./role-management"
+import { SiteUserWithRole } from "@/app/api/site-user/types"
+import { roleConst } from "@/app/api/site-user/constants"
 
 interface PeopleClientProps {
-  teamList: UserProfile[] | UserProfileWithRole[]
-  peopleList: UserProfile[] | UserProfileWithRole[]
+  teamList: UserProfile[] | SiteUserWithRole[]
+  peopleList: UserProfile[] | SiteUserWithRole[]
   siteId: number
 }
 
@@ -29,28 +31,29 @@ export default function PeopleClient({
   const transformedPeopleList = useMemo(() => {
     // Check if the data is already of type UserProfileWithRole
     if (peopleList.length > 0 && "role" in peopleList[0]) {
-      return peopleList as UserProfileWithRole[]
+      return peopleList as SiteUserWithRole[]
     }
 
     // Transform UserProfile to UserProfileWithRole
-    return (peopleList as UserProfile[]).map((user) => {
+    return (peopleList as SiteUserWithRole[]).map((user) => {
       // Simple mapping from user_level_id to role
       const getRoleFromLevelId = (levelId: number): string => {
         const roleMap: Record<number, string> = {
-          1: "Root",
-          2: "Developer",
-          3: "Super Admin",
-          4: "Admin",
-          5: "Viewer",
-          6: "People"
+          1: roleConst.Root,
+          2: roleConst.Developer,
+          3: roleConst.SuperAdmin,
+          4: roleConst.Admin,
+          5: roleConst.Viewer,
+          6: roleConst.People
         }
         return roleMap[levelId] || "Unknown"
       }
 
       return {
         ...user,
-        role: getRoleFromLevelId(user.user_level_id)
-      } as UserProfileWithRole
+        role: getRoleFromLevelId(user.user.user_level_id),
+        sub_role: getRoleFromLevelId(user.site_user_level_id)
+      } as SiteUserWithRole
     })
   }, [peopleList])
 

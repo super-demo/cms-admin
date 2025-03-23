@@ -1,3 +1,4 @@
+import { PeopleRole } from "../people-role/types"
 import { Role } from "../site-user/constants"
 import { UserProfile } from "../user/types"
 
@@ -12,6 +13,11 @@ export interface SitePeople {
   updated_at: string
   updated_by: number
   deleted_at: string
+}
+
+export interface SitePeopleWithRole extends SitePeople {
+  role: Role
+  sub_role: PeopleRole
 }
 
 export interface AddPeopleForm {

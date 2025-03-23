@@ -1,3 +1,4 @@
+import { PeopleRole } from "../people-role/types"
 import { UserProfile } from "../user/types"
 import { Role } from "./constants"
 
@@ -15,6 +16,11 @@ export interface SiteUser {
   deleted_at: string
 }
 
+export interface SiteUserWithRole extends SiteUser {
+  role: Role
+  sub_role: Role
+}
+
 export interface AddUserForm {
   site_id: number
   email: string
@@ -25,6 +31,12 @@ export interface AddUserTableForm {
   id: string
   email: string
   role: Role
+}
+
+export interface AddPeopleTableForm {
+  id: string
+  email: string
+  role: PeopleRole
 }
 
 export interface UpdateSiteUserPayload {

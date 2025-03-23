@@ -28,6 +28,11 @@ export const pathWithSlug = {
   WORKSPACE_ADD_PEOPLE_LV_2: (parentId: string, childId: string) => `${path.WORKSPACES_MINI_APPS}/${parentId}/${childId}/add-people`,
   WORKSPACE_ADD_PEOPLE_LV_3: (parentId: string, childId: string, grandChildId: string) => `${path.WORKSPACES_MINI_APPS}/${parentId}/${childId}/${grandChildId}/add-people`,
 
+  WORKSPACE_ADD_TEAM_LV_1: (childId: string) => `${path.WORKSPACES_MINI_APPS}/${childId}/add-team`,
+  WORKSPACE_ADD_TEAM_LV_2: (parentId: string, childId: string) => `${path.WORKSPACES_MINI_APPS}/${parentId}/${childId}/add-team`,
+  WORKSPACE_ADD_TEAM_LV_3: (parentId: string, childId: string, grandChildId: string) => `${path.WORKSPACES_MINI_APPS}/${parentId}/${childId}/${grandChildId}/add-team`,
+
+
   // workspace
   WORKSPACE_SLUG: (workspace: string) => `${path.WORKSPACES_MINI_APPS}/${workspace}`,
   WORKSPACE_SECOND_LEVEL: (parentId: string, childId: string) => `${path.WORKSPACES_MINI_APPS}/${parentId}/${childId}`,

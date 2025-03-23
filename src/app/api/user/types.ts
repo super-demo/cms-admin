@@ -1,3 +1,5 @@
+import { roleConst } from "../site-user/constants"
+
 export interface UserProfile {
   user_id: number
   user_level_id: number
@@ -14,9 +16,14 @@ export interface UserProfile {
   updated_at: string
 }
 
-export interface UserProfileWithRole extends UserProfile {
+export interface SiteUsersProfileWithRole extends UserProfile {
+  site_user_id: number | undefined
+  role: roleConst
+}
+
+export interface SitePeopleProfileWithRole extends UserProfile {
   site_people_id: number | undefined
-  role: "Root" | "Developer" | "Super Admin" | "Admin" | "Viewer" | "People"
+  role: roleConst
 }
 
 export interface GoogleSignInToken {

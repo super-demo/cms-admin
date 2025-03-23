@@ -280,7 +280,7 @@ export const columns = (siteId: number): ColumnDef<UserProfileWithRole>[] => [
           <Avatar className="h-8 w-8 rounded-lg">
             <AvatarImage src={user.avatar_url} alt={user.name} />
             <AvatarFallback className="rounded-lg">
-              {ShortnameImage(user.name.charAt(0))}
+              {ShortnameImage(user.user.name.charAt(0))}
             </AvatarFallback>
           </Avatar>
           <span className="ml-4">{user.name == "" ? "-" : user.name}</span>
