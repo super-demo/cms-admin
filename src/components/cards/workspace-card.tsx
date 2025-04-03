@@ -18,13 +18,6 @@ export default function WorkspaceCard({
   image_url,
   handleClick
 }: WorkspaceCardProps) {
-  // const router = useRouter()
-
-  // const handleClick = (site_id: string) => {
-  //   // const formattedUrl = url.replace(/\s+/g, "-").toLowerCase()
-  //   router.push(pathWithSlug.WORKSPACE_SLUG(site_id.toLocaleString()))
-  // }
-
   return (
     <div>
       <div className="hover-card h-[268px] w-[236px] rounded-2xl border border-gray-200 p-6">
@@ -44,33 +37,12 @@ export default function WorkspaceCard({
             </Avatar>
           </div>
           <div className="flex flex-col items-center space-y-1 text-sm">
-            <h1 className="text-base font-bold">{name}</h1>
+            <h1 className="text-center text-base font-bold">{name}</h1>
             <h1>{short_description ?? "-"}</h1>
           </div>
           <Badge>{parent_name}</Badge>
         </div>
       </div>
-
-      {/* <div className="hover-card w-[236px] rounded-2xl border border-gray-200 p-6">
-        <div className="hover-card-content flex w-full flex-col items-center space-y-4">
-          <div className="w-full text-end text-xs text-neutral-500">2nd</div>
-          <div className="flex items-center justify-center">
-            <Avatar>
-              <AvatarImage
-                src="https://github.com/thyms.png"
-                alt="workspace_icon"
-                className="size-16 rounded-full"
-              />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </div>
-          <div className="flex flex-col items-center text-sm">
-            <h1 className="text-base font-bold">สำนักคอมพิวเตอร์</h1>
-            <h1>สำนักคอมพิวเตอร์ บางเขน</h1>
-          </div>
-          <Badge>Kasetsart Bangkhen</Badge>
-        </div>
-      </div> */}
     </div>
   )
 }
